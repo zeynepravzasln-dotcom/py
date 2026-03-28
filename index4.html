@@ -5,22 +5,35 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>AstroHackathon 2025 — LEO Bant Genişliği Optimizasyonu</title>
 <style>
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;800&display=swap");
 :root {
-  --bg: #f3f5fb; --surface: #ffffff; --surface2: #eaecf7;
-  --border: #d0d6ed; --accent: #1a5fd8; --text: #1a2140;
-  --muted: #5a6888; --win: #eaf7f0; --lose: #fceaea;
+  --bg: #d0dfef; --surface: #e4edf7; --surface2: #c8d8ea;
+  --border: #a0b8d4; --accent: #0070b8; --text: #12203a;
+  --muted: #4a6a8a; --win: rgba(0,160,80,0.1); --lose: rgba(200,50,50,0.1);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.6; }
+body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', 'Segoe UI', sans-serif; line-height: 1.6;
+  background-image:
+    radial-gradient(ellipse 600px 400px at 15% 20%, rgba(0,100,200,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 350px at 85% 60%, rgba(0,180,120,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 400px 300px at 50% 90%, rgba(80,60,180,0.06) 0%, transparent 70%);
+  background-attachment: fixed;
+}
 
 header {
-  background: linear-gradient(135deg, #e8eeff 0%, #dce8ff 55%, #eef2ff 100%);
+  background: radial-gradient(ellipse at 60% 40%, #a8c8e8 0%, #c0d5ea 70%);
   border-bottom: 1px solid var(--border);
   padding: 2.5rem 2rem 2rem; text-align: center; position: relative; overflow: hidden;
 }
+header::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 350px 250px at 25% 70%, rgba(0,120,210,0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 300px 200px at 75% 30%, rgba(0,160,180,0.06) 0%, transparent 70%);
+}
 header::before {
   content: ''; position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 70% 50%, rgba(26,95,216,.08) 0%, transparent 70%);
+  background: radial-gradient(ellipse at 70% 50%, rgba(0,136,204,.08) 0%, transparent 70%);
   pointer-events: none;
 }
 .header-badge {
@@ -28,7 +41,7 @@ header::before {
   font-weight: 700; letter-spacing: .1em; padding: .25rem .8rem; border-radius: 20px;
   margin-bottom: .8rem; text-transform: uppercase;
 }
-header h1 { font-size: 2.1rem; font-weight: 800; color: #1a2140; margin-bottom: .4rem; }
+header h1 { font-size: 2.1rem; font-weight: 800; color: var(--text); margin-bottom: .4rem; }
 header p { color: var(--muted); max-width: 640px; margin: 0 auto; font-size: .95rem; }
 .stat-strip { display: flex; justify-content: center; gap: 2rem; margin-top: 1.8rem; flex-wrap: wrap; }
 .stat { text-align: center; }
@@ -39,7 +52,7 @@ nav {
   position: sticky; top: 0; z-index: 100;
   background: var(--surface); border-bottom: 1px solid var(--border);
   display: flex; padding: 0 2rem; overflow-x: auto;
-  box-shadow: 0 1px 6px rgba(26,95,216,.07);
+  box-shadow: 0 1px 6px rgba(0,60,120,.08);
 }
 nav a {
   color: var(--muted); text-decoration: none; font-size: .88rem; font-weight: 600;
@@ -57,7 +70,7 @@ section { margin-bottom: 3rem; }
 h2 { font-size: 1.4rem; margin-bottom: 1.2rem; display: flex; align-items: center; gap: .6rem; }
 h3 { font-size: 1rem; color: var(--text); margin-bottom: .8rem; }
 
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.2rem; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.2rem; box-shadow: 0 2px 12px rgba(0,80,160,0.07), 0 0 30px rgba(0,120,200,0.04); transition: box-shadow 0.3s, transform 0.3s; }
 .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.2rem; }
 @media(max-width:768px) { .metrics-grid { grid-template-columns: 1fr; } }
 
@@ -66,18 +79,18 @@ h3 { font-size: 1rem; color: var(--text); margin-bottom: .8rem; }
   text-transform:uppercase; letter-spacing:.06em; padding: .5rem .7rem; text-align:left; }
 .metrics-table td { padding: .45rem .7rem; border-bottom: 1px solid var(--border); }
 .metrics-table tr:last-child td { border-bottom: none; }
-.win  { background: var(--win);  color: #1a7a40; }
-.lose { background: var(--lose); color: #b03030; }
+.win  { background: var(--win);  color: #1a8040; }
+.lose { background: var(--lose); color: #c03030; }
 .neutral { color: var(--muted); }
 .mini-table { font-size: .78rem; margin-top: .8rem; }
 
 .badge { display: inline-block; padding: .2rem .7rem; border-radius: 20px; font-size: .75rem; font-weight:700; }
-.badge-normal { background: rgba(39,174,96,.15); color: #1a7a40; }
-.badge-crisis { background: rgba(192,57,43,.12); color: #b03030; }
+.badge-normal { background: rgba(0,160,80,.12); color: #1a8040; }
+.badge-crisis { background: rgba(200,50,50,.1); color: #c03030; }
 .type-badge { display: inline-block; padding: .1rem .5rem; border-radius: 4px; font-size: .72rem; font-weight:700; }
-.type-military  { background: rgba(192,57,43,.12); color: #a02828; }
-.type-emergency { background: rgba(200,100,20,.12); color: #a05010; }
-.type-civilian  { background: rgba(26,95,216,.12);  color: #1a5fd8; }
+.type-military  { background: rgba(192,48,48,.12); color: #c03030; }
+.type-emergency { background: rgba(176,96,16,.12); color: #b06010; }
+.type-civilian  { background: rgba(0,136,204,.12);  color: #0088cc; }
 .capacity-badge { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px;
   padding: .2rem .6rem; font-size: .75rem; color: var(--muted); }
 
@@ -88,17 +101,17 @@ h3 { font-size: 1rem; color: var(--text); margin-bottom: .8rem; }
 .formula { font-size: 1.15rem; font-family: monospace; padding: 1rem; background: var(--surface2);
   border-radius: 8px; margin: .8rem 0 1rem; color: var(--text); line-height: 2; }
 .f-demand  { color: #1a8040; font-weight: 700; }
-.f-latency { color: #b05010; font-weight: 700; }
-.f-priority{ color: #a02828; font-weight: 700; }
+.f-latency { color: #b06010; font-weight: 700; }
+.f-priority{ color: #c03030; font-weight: 700; }
 .formula-legend { display: flex; flex-direction: column; gap: .5rem; margin-bottom: 1rem; }
 .legend-item { display: flex; align-items: center; gap: .6rem; font-size: .85rem; color: var(--muted); }
 .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-.f-demand-dot  { background: #1a8040; } .f-latency-dot { background: #b05010; } .f-priority-dot { background: #a02828; }
+.f-demand-dot  { background: #1a8040; } .f-latency-dot { background: #b06010; } .f-priority-dot { background: #c03030; }
 .priority-examples { display: flex; gap: .8rem; flex-wrap: wrap; margin-top: .8rem; }
 .p-ex { flex: 1; min-width: 140px; padding: .8rem; border-radius: 8px; text-align: center; font-size: .82rem; line-height: 1.5; }
-.military-ex  { background: rgba(192,57,43,.08); border: 1px solid rgba(192,57,43,.2); }
-.emergency-ex { background: rgba(200,100,20,.08); border: 1px solid rgba(200,100,20,.2); }
-.civilian-ex  { background: rgba(26,95,216,.08);  border: 1px solid rgba(26,95,216,.2); }
+.military-ex  { background: rgba(192,48,48,.06); border: 1px solid rgba(192,48,48,.15); }
+.emergency-ex { background: rgba(176,96,16,.06); border: 1px solid rgba(176,96,16,.15); }
+.civilian-ex  { background: rgba(0,136,204,.06);  border: 1px solid rgba(0,136,204,.15); }
 
 .example-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.4rem; margin-bottom: 1.2rem; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
 .example-header { display: flex; align-items: center; gap: 1rem; margin-bottom: .4rem; flex-wrap: wrap; }
@@ -106,27 +119,27 @@ h3 { font-size: 1rem; color: var(--text); margin-bottom: .8rem; }
 .delta-row { display: flex; gap: .8rem; flex-wrap: wrap; margin-bottom: 1rem; }
 .delta-item { flex: 1; min-width: 140px; padding: .8rem; border-radius: 8px;
   background: var(--surface2); border: 1px solid var(--border); text-align: center; }
-.delta-item.positive .delta-value { color: #1a7a40; }
-.delta-item.negative .delta-value { color: #b03030; }
+.delta-item.positive .delta-value { color: #1a8040; }
+.delta-item.negative .delta-value { color: #c03030; }
 .delta-item.neutral  .delta-value { color: var(--accent); }
 .delta-label { display: block; font-size: .72rem; color: var(--muted);
   text-transform: uppercase; letter-spacing: .06em; margin-bottom: .2rem; }
 .delta-value { font-size: 1.4rem; font-weight: 800; }
 .sim-btn {
-  background: rgba(26,95,216,.1); border: 1px solid rgba(26,95,216,.3);
+  background: rgba(0,136,204,.1); border: 1px solid rgba(0,136,204,.3);
   color: var(--accent); border-radius: 6px; padding: .35rem .9rem;
   font-size: .8rem; font-weight: 600; cursor: pointer; transition: background .2s;
 }
-.sim-btn:hover { background: rgba(26,95,216,.2); }
+.sim-btn:hover { background: rgba(0,136,204,.2); }
 
 .comparison-hero { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
 @media(max-width:600px) { .comparison-hero { grid-template-columns: 1fr; } }
 .hero-card { padding: 1.4rem; border-radius: 10px; text-align: center; border: 1px solid; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
-.hero-card.priority { background: rgba(39,174,96,.07); border-color: rgba(39,174,96,.3); }
-.hero-card.baseline  { background: rgba(100,120,160,.06); border-color: rgba(100,120,160,.25); }
+.hero-card.priority { background: rgba(0,160,80,.06); border-color: rgba(0,160,80,.2); }
+.hero-card.baseline  { background: rgba(100,120,160,.06); border-color: rgba(100,120,160,.2); }
 .hero-card h3 { font-size: 1rem; margin-bottom: .8rem; }
 .hero-metric { font-size: 2rem; font-weight: 800; }
-.hero-metric.green { color: #1a7a40; }
+.hero-metric.green { color: #1a8040; }
 .hero-metric.gray  { color: var(--muted); }
 .hero-label { font-size: .78rem; color: var(--muted); margin-top: .2rem; }
 
@@ -145,20 +158,20 @@ select { width: 100%; background: var(--surface2); color: var(--text); border: 1
 .btn { border: none; border-radius: 6px; padding: .45rem .9rem; font-size: .82rem;
   font-weight: 700; cursor: pointer; transition: opacity .2s; }
 .btn:hover { opacity: .85; }
-.btn-play  { background: #27ae60; color: #fff; flex: 1; }
+.btn-play  { background: var(--accent); color: #fff; flex: 1; }
 .btn-step  { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
 .btn-reset { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
 .speed-btns { display: flex; gap: .3rem; margin-top: .5rem; }
 .speed-btn { background: var(--surface2); border: 1px solid var(--border); color: var(--muted);
   border-radius: 4px; padding: .25rem .6rem; font-size: .75rem; cursor: pointer; font-weight: 700; }
-.speed-btn.active { background: rgba(26,95,216,.15); border-color: var(--accent); color: var(--accent); }
+.speed-btn.active { background: rgba(0,136,204,.12); border-color: var(--accent); color: var(--accent); }
 
 .live-main { display: flex; flex-direction: column; gap: 1rem; }
 .gauge-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.2rem; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
 .gauge-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: .6rem; }
 .gauge-title { font-size: .8rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
 .gauge-track { background: var(--surface2); border-radius: 6px; height: 18px; overflow: hidden; position: relative; }
-.gauge-fill { height: 100%; border-radius: 6px; transition: width .35s ease; background: linear-gradient(90deg, #27ae60, #1a5fd8); }
+.gauge-fill { height: 100%; border-radius: 6px; transition: width .35s ease; background: linear-gradient(90deg, #0088cc, #27ae60); }
 .gauge-label { font-size: .8rem; color: var(--muted); margin-top: .4rem; text-align: right; }
 .gauge-pct { color: var(--text); font-weight: 700; }
 
@@ -177,9 +190,9 @@ select { width: 100%; background: var(--surface2); color: var(--text); border: 1
 .sim-user-row { display: flex; align-items: center; gap: .7rem; padding: .5rem 1rem;
   border-bottom: 1px solid var(--border); transition: background .3s; }
 .sim-user-row:last-child { border-bottom: none; }
-.sim-user-row.row-done    { background: rgba(39,174,96,.07); }
-.sim-user-row.row-fail    { background: rgba(192,57,43,.06); }
-.sim-user-row.row-current { background: rgba(26,95,216,.07); }
+.sim-user-row.row-done    { background: rgba(0,160,80,.08); }
+.sim-user-row.row-fail    { background: rgba(200,50,50,.07); }
+.sim-user-row.row-current { background: rgba(0,136,204,.08); }
 .sim-user-info { display: flex; align-items: center; gap: .4rem; min-width: 150px; }
 .sim-type-badge { display: inline-block; padding: .1rem .4rem; border-radius: 4px;
   font-size: .68rem; font-weight: 800; min-width: 32px; text-align: center; }
@@ -196,11 +209,11 @@ select { width: 100%; background: var(--surface2); color: var(--text); border: 1
 /* ── COMPARISON ── */
 .problem-box {
   display: flex; gap: 1rem; align-items: flex-start;
-  background: rgba(192,57,43,.06); border: 1px solid rgba(192,57,43,.2);
+  background: rgba(200,50,50,.06); border: 1px solid rgba(200,50,50,.15);
   border-radius: 10px; padding: 1.2rem; margin-bottom: 1.5rem;
 }
 .problem-icon { font-size: 1.8rem; flex-shrink: 0; line-height: 1; padding-top:.1rem; }
-.problem-box h3 { margin-bottom: .4rem; color: #a02828; font-size:.95rem; }
+.problem-box h3 { margin-bottom: .4rem; color: #c03030; font-size:.95rem; }
 .problem-box p  { color: var(--muted); font-size:.85rem; line-height:1.7; }
 
 .big-numbers { display: grid; grid-template-columns: repeat(4,1fr); gap: .8rem; margin-bottom: 1.5rem; }
@@ -217,8 +230,8 @@ select { width: 100%; background: var(--surface2); color: var(--text); border: 1
   position:relative; overflow:hidden; margin-bottom:.15rem; }
 .cmp-bar-fill  { height:100%; border-radius:4px; transition: width .4s ease; }
 .cmp-bar-label { font-size:.7rem; color:var(--muted); }
-.cmp-win  { color:#1a7a40; font-weight:700; }
-.cmp-lose { color:#b03030; }
+.cmp-win  { color:#1a8040; font-weight:700; }
+.cmp-lose { color:#c03030; }
 .cmp-neutral { color:var(--muted); }
 .cmp-summary { display:flex; flex-direction:column; gap:.3rem; margin-top:.8rem;
   padding-top:.8rem; border-top:1px solid var(--border); font-size:.8rem; color:var(--muted); }
@@ -230,8 +243,8 @@ select { width: 100%; background: var(--surface2); color: var(--text); border: 1
 @media(max-width:680px) { .story-grid { grid-template-columns:1fr; } }
 .story-col { background: var(--surface2); border-radius:8px; padding:1rem; }
 .story-header { font-weight:700; margin-bottom:.7rem; font-size:.9rem; }
-.story-without .story-header { color:#a02828; }
-.story-with    .story-header { color:#1a7a40; }
+.story-without .story-header { color:#c03030; }
+.story-with    .story-header { color:#1a8040; }
 .story-col ul { padding-left:1.2rem; }
 .story-col li { font-size:.83rem; color:var(--muted); line-height:1.8; }
 .story-col li strong { color:var(--text); }
@@ -257,11 +270,11 @@ footer {
 .dual-map-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
 @media(max-width:700px) { .dual-map-grid { grid-template-columns: 1fr; } }
 .map-col-header { font-size: .78rem; font-weight: 700; text-align: center; padding: .35rem .6rem; border-radius: 6px; margin-bottom: .4rem; }
-.map-col-header.priority-header { background: rgba(39,174,96,.1); color: #1a7a40; border: 1px solid rgba(39,174,96,.25); }
+.map-col-header.priority-header { background: rgba(0,160,80,.08); color: #1a8040; border: 1px solid rgba(0,160,80,.2); }
 .map-col-header.baseline-header { background: rgba(100,120,160,.08); color: var(--muted); border: 1px solid var(--border); }
-.turkey-svg { width: 100%; height: auto; display: block; border-radius: 8px; background: #e8f0fa; border: 1px solid var(--border); cursor: zoom-in; }
-.turkey-svg:hover { border-color: rgba(26,95,216,.4); box-shadow: 0 0 0 1px rgba(26,95,216,.2); }
-.city-label { font-size: 7px; fill: rgba(20,40,80,0.65); text-anchor: middle; pointer-events: none; font-family: sans-serif; font-weight: 600; }
+.turkey-svg { width: 100%; height: auto; display: block; border-radius: 8px; background: #c0d4e8; border: 1px solid var(--border); cursor: zoom-in; }
+.turkey-svg:hover { border-color: rgba(0,136,204,.4); box-shadow: 0 0 0 1px rgba(0,136,204,.15); }
+.city-label { font-size: 7px; fill: rgba(20,50,90,0.7); text-anchor: middle; pointer-events: none; font-family: sans-serif; font-weight: 600; }
 .city-type-label { font-size: 6px; text-anchor: middle; pointer-events: none; font-family: sans-serif; font-weight: 700; }
 .map-legend { display: flex; gap: 1rem; font-size: .72rem; color: var(--muted); margin-top: .6rem; justify-content: center; flex-wrap: wrap; }
 .legend-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: .3rem; vertical-align: middle; }
@@ -270,46 +283,55 @@ footer {
 .modes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-top: 1.2rem; }
 @media(max-width:800px) { .modes-grid { grid-template-columns: 1fr; } }
 .mode-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.4rem 1.2rem; display: flex; flex-direction: column; gap: .8rem; position: relative; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
-.mode-card.active-mode { border-color: rgba(192,57,43,.4); box-shadow: 0 0 0 1px rgba(192,57,43,.15), 0 2px 8px rgba(192,57,43,.08); }
+.mode-card.active-mode { border-color: rgba(192,48,48,.35); box-shadow: 0 0 0 1px rgba(192,48,48,.12), 0 2px 8px rgba(192,48,48,.06); }
 .mode-card-title { font-size: 1.05rem; font-weight: 700; }
-.mode-card.blue   .mode-card-title { color: #1a5fd8; }
-.mode-card.red    .mode-card-title { color: #a02828; }
-.mode-card.orange .mode-card-title { color: #a05010; }
+.mode-card.blue   .mode-card-title { color: #0070b0; }
+.mode-card.red    .mode-card-title { color: #c03030; }
+.mode-card.orange .mode-card-title { color: #b06010; }
 .mode-card-desc { font-size: .84rem; color: var(--muted); line-height: 1.55; }
 .mode-weights { background: var(--surface2); border: 1px solid var(--border); border-radius: 7px; padding: .7rem .9rem; font-family: monospace; font-size: .82rem; display: flex; flex-direction: column; gap: .35rem; }
 .mode-weights span { color: var(--muted); }
 .mode-weights span b { color: var(--text); }
-.mode-weight-blue  b { color: #1a5fd8; }
-.mode-weight-red   b { color: #a02828; }
-.mode-weight-orange b { color: #a05010; }
+.mode-weight-blue  b { color: #0070b0; }
+.mode-weight-red   b { color: #c03030; }
+.mode-weight-orange b { color: #b06010; }
 .mode-examples { font-size: .78rem; color: var(--muted); padding-left: 1rem; margin: 0; line-height: 1.7; }
 .mode-result { font-size: .78rem; font-weight: 600; padding: .45rem .75rem; border-radius: 6px; text-align: center; margin-top: auto; }
-.mode-card.blue   .mode-result { background: rgba(26,95,216,.08);  color: #1a5fd8; border: 1px solid rgba(26,95,216,.2); }
-.mode-card.red    .mode-result { background: rgba(192,57,43,.08);  color: #a02828; border: 1px solid rgba(192,57,43,.2); }
-.mode-card.orange .mode-result { background: rgba(200,100,20,.08); color: #a05010; border: 1px solid rgba(200,100,20,.2); }
-.active-badge { position: absolute; top: -.7rem; left: 50%; transform: translateX(-50%); background: #c0392b; color: #fff; font-size: .65rem; font-weight: 700; padding: .2rem .7rem; border-radius: 99px; letter-spacing: .04em; white-space: nowrap; }
-.modes-note { margin-top: 1.8rem; background: var(--surface); border-left: 3px solid rgba(26,95,216,.35); border-radius: 0 8px 8px 0; padding: .9rem 1.2rem; font-size: .85rem; color: var(--muted); line-height: 1.6; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
+.mode-card.blue   .mode-result { background: rgba(0,112,176,.08);  color: #0070b0; border: 1px solid rgba(0,112,176,.2); }
+.mode-card.red    .mode-result { background: rgba(192,48,48,.08);  color: #c03030; border: 1px solid rgba(192,48,48,.2); }
+.mode-card.orange .mode-result { background: rgba(176,96,16,.08); color: #b06010; border: 1px solid rgba(176,96,16,.2); }
+.active-badge { position: absolute; top: -.7rem; left: 50%; transform: translateX(-50%); background: #c03030; color: #fff; font-size: .65rem; font-weight: 700; padding: .2rem .7rem; border-radius: 99px; letter-spacing: .04em; white-space: nowrap; }
+.modes-note { margin-top: 1.8rem; background: var(--surface); border-left: 3px solid rgba(0,136,204,.35); border-radius: 0 8px 8px 0; padding: .9rem 1.2rem; font-size: .85rem; color: var(--muted); line-height: 1.6; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
 .map-zoom-hint { display: block; font-size: .65rem; color: var(--muted); text-align: right; margin-top: .2rem; opacity: .6; }
-#map-modal { display:none; position:fixed; inset:0; background:rgba(20,30,60,.75); z-index:9999; align-items:center; justify-content:center; flex-direction:column; gap:.8rem; backdrop-filter:blur(4px); }
+#map-modal { display:none; position:fixed; inset:0; background:rgba(20,40,70,.7); z-index:9999; align-items:center; justify-content:center; flex-direction:column; gap:.8rem; backdrop-filter:blur(4px); }
 #map-modal.open { display:flex; }
 #map-modal-inner { width:90vw; max-width:1050px; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:1rem; position:relative; box-shadow:0 8px 40px rgba(0,0,0,.18); }
 #map-modal-inner svg { width:100%; height:auto; display:block; border-radius:6px; }
 #map-modal-title { font-size:.8rem; font-weight:700; color:var(--text); margin-bottom:.6rem; }
 #map-modal-close { position:absolute; top:.6rem; right:.8rem; background:none; border:none; color:var(--muted); font-size:1.4rem; cursor:pointer; line-height:1; padding:.2rem .4rem; border-radius:4px; }
 #map-modal-close:hover { color:var(--text); background:var(--surface2); }
+
+/* Stars */
+.stars { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.star {
+  position: absolute; border-radius: 50%;
+  opacity: 0; animation: twinkle var(--dur, 4s) var(--del, 0s) infinite;
+}
+@keyframes twinkle {
+  0%,100% { opacity:0; transform:scale(0.8); }
+  50% { opacity:var(--peak, 0.5); transform:scale(1); }
+}
+.gsap-reveal { opacity: 0; transform: translateY(40px); }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 </head>
 <body>
 <header>
+  <div class="stars" id="stars"></div>
   <div class="header-badge">AstroHackathon 2025</div>
   <h1>🛰 LEO Uydu Bant Genişliği Optimizasyonu</h1>
   <p>Dinamik öncelik bazlı dağıtım algoritması ile eşit (statik) dağıtımın karşılaştırmalı simülasyonu.</p>
-  <div class="stat-strip">
-    <div class="stat"><div class="stat-val">1000 Mbps</div><div class="stat-lbl">Toplam Kapasite</div></div>
-    <div class="stat"><div class="stat-val">100</div><div class="stat-lbl">Simüle Edilen Kullanıcı</div></div>
-    <div class="stat"><div class="stat-val">2</div><div class="stat-lbl">Senaryo</div></div>
-    <div class="stat"><div class="stat-val">4</div><div class="stat-lbl">Örnek Simülasyon</div></div>
-  </div>
 </header>
 
 <nav>
@@ -321,6 +343,8 @@ footer {
   <a class="nav-link"         data-tab="crisis">Kriz Senaryosu</a>
   <a class="nav-link"         data-tab="examples">Simülasyon Örnekleri</a>
   <a class="nav-link"         data-tab="live">🎬 Canlı Simülasyon</a>
+  <a class="nav-link"         data-tab="portable">📡 Taşınabilir Ağ</a>
+  <a class="nav-link"         data-tab="ai">🤖 AI Entegrasyonu</a>
 </nav>
 
 <main>
@@ -354,6 +378,18 @@ footer {
       %10 oranında karşılayabilmektedir.
       Kriz senaryosunda fark daha da belirginleşir:
       Priority %63 vs Baseline %15.
+    </p>
+  </div>
+  <div class="card" style="margin-top:1rem;border-left:3px solid var(--accent)">
+    <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem">
+      <span style="font-size:1.2rem">🤖</span>
+      <strong style="font-size:.9rem">AI ile Bir Sonraki Adım</strong>
+    </div>
+    <p style="color:var(--muted);font-size:.85rem;line-height:1.7">
+      Mevcut statik ağırlıklar AI entegrasyonu ile adaptif hale getirilebilir:
+      talep tahmini ile spike'lar önceden algılanır, ağırlıklar anlık duruma göre otomatik ayarlanır,
+      çoklu kaynak routing ile Starlink+LTE kombine edilir.
+      <a href="#" onclick="switchTab('ai');return false" style="color:var(--accent);font-weight:600">→ AI Entegrasyonu sekmesine git</a>
     </p>
   </div>
 </section>
@@ -558,6 +594,13 @@ footer {
       <p>O(n log n) karmaşıklığı ile skor sıralaması gerçek zamanlı uydu geçiş
          pencerelerinde (tipik 5–10 dk) hesaplanabilir. Makul yeniden-hesaplama
          maliyeti.</p>
+    </div>
+    <div class="benefit-card" style="border:1px solid rgba(0,112,184,.3);background:rgba(0,112,184,.04)">
+      <div class="benefit-icon">🤖</div>
+      <h4>AI-Ready Mimari</h4>
+      <p>Skor formülü paramterik yapısı sayesinde AI adaptif ağırlıklara,
+         talep tahminine ve anomali tespitine doğrudan entegre edilebilir.
+         <a href="#" onclick="switchTab('ai');return false" style="color:var(--accent);font-weight:600">Detaylar →</a></p>
     </div>
   </div>
 </section>
@@ -1185,7 +1228,7 @@ footer {
           <filter id="hf-p" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="13"/></filter>
           <filter id="sh-p" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#7090b0" flood-opacity="0.25"/></filter>
         </defs>
-        <path d="M 20,35 C 42,20 78,18 104,28 C 118,34 128,46 130,52 C 152,42 192,28 242,17 C 278,10 314,8 332,10 C 355,12 382,22 412,38 C 442,40 502,48 552,64 C 592,56 634,42 666,38 C 692,44 718,62 742,88 C 760,118 774,154 777,186 C 780,214 774,238 762,255 C 748,268 730,276 707,279 C 678,283 646,285 612,289 C 578,293 542,300 506,309 C 476,318 450,328 431,336 C 417,341 403,334 396,318 C 374,300 348,287 320,283 C 292,279 266,295 244,314 C 228,326 210,328 190,314 C 168,299 143,285 120,283 C 95,281 74,266 55,247 C 39,231 31,211 28,193 C 23,172 19,150 18,129 C 17,107 17,85 21,65 C 24,53 37,43 54,37 C 43,29 29,28 20,35 Z" fill="#c8daea" stroke="#7090b0" stroke-width="1.3" filter="url(#sh-p)"/>
+        <path d="M 20,35 C 42,20 78,18 104,28 C 118,34 128,46 130,52 C 152,42 192,28 242,17 C 278,10 314,8 332,10 C 355,12 382,22 412,38 C 442,40 502,48 552,64 C 592,56 634,42 666,38 C 692,44 718,62 742,88 C 760,118 774,154 777,186 C 780,214 774,238 762,255 C 748,268 730,276 707,279 C 678,283 646,285 612,289 C 578,293 542,300 506,309 C 476,318 450,328 431,336 C 417,341 403,334 396,318 C 374,300 348,287 320,283 C 292,279 266,295 244,314 C 228,326 210,328 190,314 C 168,299 143,285 120,283 C 95,281 74,266 55,247 C 39,231 31,211 28,193 C 23,172 19,150 18,129 C 17,107 17,85 21,65 C 24,53 37,43 54,37 C 43,29 29,28 20,35 Z" fill="#a8c4de" stroke="#6a90b8" stroke-width="1.3" filter="url(#sh-p)"/>
         <g filter="url(#hf-p)" opacity="0.75">
           <circle id="heat-istanbul-p" cx="130" cy="55" r="0" fill="#2980b9" opacity="0"/>
           <circle id="heat-ankara-p" cx="292" cy="132" r="0" fill="#c0392b" opacity="0"/>
@@ -1219,20 +1262,20 @@ footer {
           <circle cx="725" cy="192" r="11" fill="none" stroke="#c0392b" stroke-width="1.3" opacity="0.4" stroke-dasharray="3,2"/>
         </g>
         <g>
-          <circle id="dot-istanbul-p" cx="130" cy="55" r="10" fill="#3a5a8a"/>
-          <circle id="dot-ankara-p" cx="292" cy="132" r="8" fill="#3a5a8a"/>
-          <circle id="dot-izmir-p" cx="46" cy="188" r="8" fill="#3a5a8a"/>
-          <circle id="dot-bursa-p" cx="136" cy="110" r="6" fill="#3a5a8a"/>
-          <circle id="dot-antalya-p" cx="235" cy="265" r="6" fill="#3a5a8a"/>
-          <circle id="dot-adana-p" cx="392" cy="278" r="6" fill="#3a5a8a"/>
-          <circle id="dot-konya-p" cx="270" cy="228" r="6" fill="#3a5a8a"/>
-          <circle id="dot-gaziantep-p" cx="478" cy="285" r="6" fill="#3a5a8a"/>
-          <circle id="dot-diyarbakir-p" cx="588" cy="238" r="6" fill="#3a5a8a"/>
-          <circle id="dot-kayseri-p" cx="392" cy="195" r="6" fill="#3a5a8a"/>
-          <circle id="dot-trabzon-p" cx="552" cy="68" r="6" fill="#3a5a8a"/>
-          <circle id="dot-samsun-p" cx="412" cy="46" r="6" fill="#3a5a8a"/>
-          <circle id="dot-erzurum-p" cx="638" cy="132" r="6" fill="#3a5a8a"/>
-          <circle id="dot-van-p" cx="725" cy="192" r="6" fill="#3a5a8a"/>
+          <circle id="dot-istanbul-p" cx="130" cy="55" r="10" fill="#5a8ab5"/>
+          <circle id="dot-ankara-p" cx="292" cy="132" r="8" fill="#5a8ab5"/>
+          <circle id="dot-izmir-p" cx="46" cy="188" r="8" fill="#5a8ab5"/>
+          <circle id="dot-bursa-p" cx="136" cy="110" r="6" fill="#5a8ab5"/>
+          <circle id="dot-antalya-p" cx="235" cy="265" r="6" fill="#5a8ab5"/>
+          <circle id="dot-adana-p" cx="392" cy="278" r="6" fill="#5a8ab5"/>
+          <circle id="dot-konya-p" cx="270" cy="228" r="6" fill="#5a8ab5"/>
+          <circle id="dot-gaziantep-p" cx="478" cy="285" r="6" fill="#5a8ab5"/>
+          <circle id="dot-diyarbakir-p" cx="588" cy="238" r="6" fill="#5a8ab5"/>
+          <circle id="dot-kayseri-p" cx="392" cy="195" r="6" fill="#5a8ab5"/>
+          <circle id="dot-trabzon-p" cx="552" cy="68" r="6" fill="#5a8ab5"/>
+          <circle id="dot-samsun-p" cx="412" cy="46" r="6" fill="#5a8ab5"/>
+          <circle id="dot-erzurum-p" cx="638" cy="132" r="6" fill="#5a8ab5"/>
+          <circle id="dot-van-p" cx="725" cy="192" r="6" fill="#5a8ab5"/>
         </g>
         <g>
           <text class="city-label" x="130" y="43">İstanbul</text>
@@ -1277,7 +1320,7 @@ footer {
           <filter id="hf-b" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="13"/></filter>
           <filter id="sh-b" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#7090b0" flood-opacity="0.25"/></filter>
         </defs>
-        <path d="M 20,35 C 42,20 78,18 104,28 C 118,34 128,46 130,52 C 152,42 192,28 242,17 C 278,10 314,8 332,10 C 355,12 382,22 412,38 C 442,40 502,48 552,64 C 592,56 634,42 666,38 C 692,44 718,62 742,88 C 760,118 774,154 777,186 C 780,214 774,238 762,255 C 748,268 730,276 707,279 C 678,283 646,285 612,289 C 578,293 542,300 506,309 C 476,318 450,328 431,336 C 417,341 403,334 396,318 C 374,300 348,287 320,283 C 292,279 266,295 244,314 C 228,326 210,328 190,314 C 168,299 143,285 120,283 C 95,281 74,266 55,247 C 39,231 31,211 28,193 C 23,172 19,150 18,129 C 17,107 17,85 21,65 C 24,53 37,43 54,37 C 43,29 29,28 20,35 Z" fill="#c8daea" stroke="#7090b0" stroke-width="1.3" filter="url(#sh-b)"/>
+        <path d="M 20,35 C 42,20 78,18 104,28 C 118,34 128,46 130,52 C 152,42 192,28 242,17 C 278,10 314,8 332,10 C 355,12 382,22 412,38 C 442,40 502,48 552,64 C 592,56 634,42 666,38 C 692,44 718,62 742,88 C 760,118 774,154 777,186 C 780,214 774,238 762,255 C 748,268 730,276 707,279 C 678,283 646,285 612,289 C 578,293 542,300 506,309 C 476,318 450,328 431,336 C 417,341 403,334 396,318 C 374,300 348,287 320,283 C 292,279 266,295 244,314 C 228,326 210,328 190,314 C 168,299 143,285 120,283 C 95,281 74,266 55,247 C 39,231 31,211 28,193 C 23,172 19,150 18,129 C 17,107 17,85 21,65 C 24,53 37,43 54,37 C 43,29 29,28 20,35 Z" fill="#a8c4de" stroke="#6a90b8" stroke-width="1.3" filter="url(#sh-b)"/>
         <g filter="url(#hf-b)" opacity="0.75">
           <circle id="heat-istanbul-b" cx="130" cy="55" r="0" fill="#2980b9" opacity="0"/>
           <circle id="heat-ankara-b" cx="292" cy="132" r="0" fill="#c0392b" opacity="0"/>
@@ -1295,20 +1338,20 @@ footer {
           <circle id="heat-van-b" cx="725" cy="192" r="0" fill="#c0392b" opacity="0"/>
         </g>
         <g>
-          <circle id="dot-istanbul-b" cx="130" cy="55" r="10" fill="#3a5a8a"/>
-          <circle id="dot-ankara-b" cx="292" cy="132" r="8" fill="#3a5a8a"/>
-          <circle id="dot-izmir-b" cx="46" cy="188" r="8" fill="#3a5a8a"/>
-          <circle id="dot-bursa-b" cx="136" cy="110" r="6" fill="#3a5a8a"/>
-          <circle id="dot-antalya-b" cx="235" cy="265" r="6" fill="#3a5a8a"/>
-          <circle id="dot-adana-b" cx="392" cy="278" r="6" fill="#3a5a8a"/>
-          <circle id="dot-konya-b" cx="270" cy="228" r="6" fill="#3a5a8a"/>
-          <circle id="dot-gaziantep-b" cx="478" cy="285" r="6" fill="#3a5a8a"/>
-          <circle id="dot-diyarbakir-b" cx="588" cy="238" r="6" fill="#3a5a8a"/>
-          <circle id="dot-kayseri-b" cx="392" cy="195" r="6" fill="#3a5a8a"/>
-          <circle id="dot-trabzon-b" cx="552" cy="68" r="6" fill="#3a5a8a"/>
-          <circle id="dot-samsun-b" cx="412" cy="46" r="6" fill="#3a5a8a"/>
-          <circle id="dot-erzurum-b" cx="638" cy="132" r="6" fill="#3a5a8a"/>
-          <circle id="dot-van-b" cx="725" cy="192" r="6" fill="#3a5a8a"/>
+          <circle id="dot-istanbul-b" cx="130" cy="55" r="10" fill="#5a8ab5"/>
+          <circle id="dot-ankara-b" cx="292" cy="132" r="8" fill="#5a8ab5"/>
+          <circle id="dot-izmir-b" cx="46" cy="188" r="8" fill="#5a8ab5"/>
+          <circle id="dot-bursa-b" cx="136" cy="110" r="6" fill="#5a8ab5"/>
+          <circle id="dot-antalya-b" cx="235" cy="265" r="6" fill="#5a8ab5"/>
+          <circle id="dot-adana-b" cx="392" cy="278" r="6" fill="#5a8ab5"/>
+          <circle id="dot-konya-b" cx="270" cy="228" r="6" fill="#5a8ab5"/>
+          <circle id="dot-gaziantep-b" cx="478" cy="285" r="6" fill="#5a8ab5"/>
+          <circle id="dot-diyarbakir-b" cx="588" cy="238" r="6" fill="#5a8ab5"/>
+          <circle id="dot-kayseri-b" cx="392" cy="195" r="6" fill="#5a8ab5"/>
+          <circle id="dot-trabzon-b" cx="552" cy="68" r="6" fill="#5a8ab5"/>
+          <circle id="dot-samsun-b" cx="412" cy="46" r="6" fill="#5a8ab5"/>
+          <circle id="dot-erzurum-b" cx="638" cy="132" r="6" fill="#5a8ab5"/>
+          <circle id="dot-van-b" cx="725" cy="192" r="6" fill="#5a8ab5"/>
         </g>
         <g>
           <text class="city-label" x="130" y="43">İstanbul</text>
@@ -1342,6 +1385,540 @@ footer {
 
     </div>
   </div>
+</section>
+</div>
+
+<!-- ── PORTABLE NETWORK ── -->
+<div class="tab-pane" id="tab-portable">
+<section>
+  <h2>📡 Taşınabilir Ağ Entegrasyonu — Saha Senaryosu</h2>
+
+  <!-- Problem kutusu -->
+  <div class="problem-box">
+    <div class="problem-icon">🚨</div>
+    <div>
+      <h3>Altyapı Çöktüğünde Ne Olur?</h3>
+      <p>Deprem, sel veya çatışma bölgelerinde sabit fiber ve baz istasyonları devre dışı kalır.
+         Bölgeye taşınabilir ağ ekipmanları getirilir — ancak kapasite son derece kısıtlıdır.
+         Onlarca farklı ekip (askeri, AFAD, sağlık, sivil) aynı anda bu sınırlı kapasiteyi
+         paylaşmak zorundadır. <strong>Eşit dağıtım, kritik operasyonları çökertir.</strong></p>
+    </div>
+  </div>
+
+  <!-- Taşınabilir Ağ Türleri -->
+  <h3 style="margin-bottom:1rem">Desteklenen Taşınabilir Ağ Türleri</h3>
+  <div class="benefits-grid" style="grid-template-columns:repeat(4,1fr)" id="port-net-grid">
+    <div class="benefit-card">
+      <div class="benefit-icon">🛰</div>
+      <h4>Starlink Terminali</h4>
+      <p>Uydu internet. Tek terminal ~50-220 Mbps. Birden fazla terminal kombine edilebilir.
+         Kurulum: 5 dakika. Güç: 12V/110W.</p>
+      <div style="margin-top:.6rem;padding:.4rem .6rem;background:var(--surface2);border-radius:6px;font-size:.75rem;color:var(--muted)">
+        Tipik kapasite: <strong style="color:var(--accent)">50–220 Mbps</strong>
+      </div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">📶</div>
+      <h4>Taşınabilir LTE/5G</h4>
+      <p>Mobil baz istasyonu (COW — Cell on Wheels). Kendi frekans bandında yerel hücre oluşturur.
+         Menzil: 1-5 km. Jeneratör ile çalışır.</p>
+      <div style="margin-top:.6rem;padding:.4rem .6rem;background:var(--surface2);border-radius:6px;font-size:.75rem;color:var(--muted)">
+        Tipik kapasite: <strong style="color:var(--accent)">100–500 Mbps</strong>
+      </div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">📡</div>
+      <h4>VSAT Uydu Çanağı</h4>
+      <p>Geostasyoner uydu bağlantısı. Yüksek gecikme (~600ms) ama güvenilir.
+         Uzak bölgelerde tek seçenek olabilir. Kurulum: 30 dk.</p>
+      <div style="margin-top:.6rem;padding:.4rem .6rem;background:var(--surface2);border-radius:6px;font-size:.75rem;color:var(--muted)">
+        Tipik kapasite: <strong style="color:var(--accent)">10–50 Mbps</strong>
+      </div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">🔗</div>
+      <h4>Mesh Ağ (Telsiz)</h4>
+      <p>Birden fazla düğüm birbirine bağlanarak ağ oluşturur. Her düğüm hem istemci hem yönlendirici.
+         Altyapısız çalışır, düğüm eklendikçe kapsama genişler.</p>
+      <div style="margin-top:.6rem;padding:.4rem .6rem;background:var(--surface2);border-radius:6px;font-size:.75rem;color:var(--muted)">
+        Tipik kapasite: <strong style="color:var(--accent)">5–80 Mbps</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nasıl Çalışır -->
+  <div class="story-box">
+    <h3>⚡ Sistem Neden Taşınabilir Ağlarda Çalışır?</h3>
+    <div class="story-grid">
+      <div class="story-col story-with">
+        <div class="story-header">✅ Altyapı-Bağımsız Mimari</div>
+        <ul>
+          <li>Algoritma sadece <strong>toplam kapasite (Mbps)</strong> ve <strong>kullanıcı listesi</strong> alır.</li>
+          <li>Altyapının Starlink, LTE veya mesh olması fark etmez — aynı skor formülü çalışır.</li>
+          <li>Birden fazla kaynak kombine edilebilir: <strong>Starlink + LTE = 300 Mbps havuz.</strong></li>
+          <li>Hesaplama O(n log n) — Raspberry Pi gibi düşük güçlü cihazda bile çalışır.</li>
+          <li>Operatör sahada <strong>tek komutla</strong> mod değiştirebilir (barış / aktif / insani yardım).</li>
+        </ul>
+      </div>
+      <div class="story-col story-without">
+        <div class="story-header">❌ Sistem Olmadan — Sahada Kaos</div>
+        <ul>
+          <li>150 Mbps Starlink → 30 kişiye eşit bölünür → herkes <strong>5 Mbps</strong> alır.</li>
+          <li>AFAD komuta merkezi video konferans için 25 Mbps ister → <strong>karşılanamaz.</strong></li>
+          <li>Askeri İHA görüntü aktarımı 40 Mbps ister → <strong>imkansız.</strong></li>
+          <li>Sivil WhatsApp mesajları bile sorunlu — kapasitenin <strong>%30'u boşa gider.</strong></li>
+          <li>Koordinasyon çöker, müdahale gecikmesi <strong>hayat kaybına</strong> yol açabilir.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Saha Senaryosu — İnteraktif Simülasyon -->
+  <h3 style="margin-bottom:1rem">🎯 Saha Senaryosu — Canlı Simülasyon</h3>
+  <p style="color:var(--muted);font-size:.85rem;margin-bottom:1rem">
+    Aşağıda deprem bölgesine getirilen taşınabilir ağ ekipmanlarıyla priority sisteminin
+    nasıl çalıştığını simüle edebilirsiniz.
+  </p>
+
+  <div class="live-layout">
+    <!-- Controls -->
+    <div class="live-controls-panel">
+      <div class="ctrl-row">
+        <label>Ağ Kaynağı</label>
+        <select id="port-source" onchange="updatePortCap()">
+          <option value="starlink">🛰 Starlink (150 Mbps)</option>
+          <option value="lte">📶 Taşınabilir LTE (300 Mbps)</option>
+          <option value="vsat">📡 VSAT (30 Mbps)</option>
+          <option value="mesh">🔗 Mesh Ağ (40 Mbps)</option>
+          <option value="combo" selected>🔀 Starlink + LTE Kombo (450 Mbps)</option>
+        </select>
+      </div>
+      <div class="ctrl-row">
+        <label>Kapasite <span class="val-display" id="port-cap-val">450</span> Mbps</label>
+        <input type="range" id="port-cap" min="10" max="800" step="10" value="450"/>
+      </div>
+      <div class="ctrl-row">
+        <label>Saha Ekip Sayısı <span class="val-display" id="port-n-val">20</span></label>
+        <input type="range" id="port-n" min="5" max="50" step="1" value="20"/>
+      </div>
+      <div class="ctrl-row">
+        <label>Saha Modu</label>
+        <select id="port-mode">
+          <option value="humanitarian" selected>🆘 İnsani Yardım</option>
+          <option value="military">⚔ Askeri Operasyon</option>
+          <option value="mixed">🔀 Karma</option>
+        </select>
+      </div>
+      <div class="btn-group" style="margin-top:.8rem;">
+        <button class="btn btn-play" id="port-btn-play" onclick="portTogglePlay()">▶ Başlat</button>
+        <button class="btn btn-step" onclick="portStepOnce()">⇥ Adım</button>
+        <button class="btn btn-reset" onclick="portReset()">↺ Sıfırla</button>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div class="live-main">
+      <!-- Gauge -->
+      <div class="gauge-card">
+        <div class="gauge-header">
+          <span class="gauge-title">Taşınabilir Ağ Kapasitesi</span>
+          <span class="gauge-pct" id="port-gauge-pct">0%</span>
+        </div>
+        <div class="gauge-track">
+          <div class="gauge-fill" id="port-gauge-fill" style="width:0%"></div>
+        </div>
+        <div class="gauge-label" id="port-gauge-text">0 / 450 Mbps</div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="s-val" id="port-stat-critical">0%</div>
+          <div class="s-lbl">Kritik Karşılanma</div>
+        </div>
+        <div class="stat-card">
+          <div class="s-val" id="port-stat-latency">0</div>
+          <div class="s-lbl">Gecikme Cezası</div>
+        </div>
+        <div class="stat-card">
+          <div class="s-val" id="port-stat-efficiency">0%</div>
+          <div class="s-lbl">Kapasite Verimi</div>
+        </div>
+      </div>
+
+      <!-- Comparison cards -->
+      <div class="comparison-hero" id="port-comparison" style="display:none">
+        <div class="hero-card priority">
+          <h3>🎯 Priority Sistemi</h3>
+          <div class="hero-metric green" id="port-pri-rate">0%</div>
+          <div class="hero-label">Kritik karşılanma oranı</div>
+          <div style="margin-top:.6rem;font-size:.85rem;color:var(--muted)" id="port-pri-detail"></div>
+        </div>
+        <div class="hero-card baseline">
+          <h3>⚖ Eşit Dağıtım</h3>
+          <div class="hero-metric gray" id="port-bas-rate">0%</div>
+          <div class="hero-label">Kritik karşılanma oranı</div>
+          <div style="margin-top:.6rem;font-size:.85rem;color:var(--muted)" id="port-bas-detail"></div>
+        </div>
+      </div>
+
+      <!-- User list -->
+      <div class="users-panel">
+        <div class="users-panel-header">
+          <span>Saha Ekipleri — Öncelik Sırasına Göre</span>
+          <span id="port-step-counter">Adım: 0 / 0</span>
+        </div>
+        <div class="users-scroll">
+          <div id="port-empty" class="empty-state">↓ Başlat butonuna bas — saha simülasyonu başlasın</div>
+          <div id="port-users-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Kullanım senaryoları -->
+  <h3 style="margin-top:2rem;margin-bottom:1rem">📋 Gerçek Dünya Kullanım Senaryoları</h3>
+  <div class="modes-grid">
+    <div class="mode-card orange">
+      <div class="mode-card-title">🏔 Deprem Bölgesi</div>
+      <div class="mode-card-desc">
+        Fiber ve mobil altyapı çökmüş. AFAD, askeri birlikler ve sağlık ekipleri bölgede.
+        2× Starlink + 1× Taşınabilir LTE ile 500 Mbps havuz oluşturulur.
+      </div>
+      <div class="mode-weights mode-weight-orange">
+        <span>AFAD Komuta: <b>60 Mbps</b> (video konferans)</span>
+        <span>Askeri İHA: <b>45 Mbps</b> (görüntü aktarım)</span>
+        <span>Sağlık ekibi: <b>20 Mbps</b> (telemedicine)</span>
+        <span>Sivil haberleşme: <b>5 Mbps</b> (mesajlaşma)</span>
+      </div>
+      <div class="mode-result">Priority: kritik ekipler %100 karşılanır</div>
+    </div>
+    <div class="mode-card red">
+      <div class="mode-card-title">⚔ Sınır Operasyonu</div>
+      <div class="mode-card-desc">
+        Sabit altyapı yok veya güvenilmez. Taşınabilir LTE ile yerel ağ kurulur.
+        Komuta-kontrol trafiği mutlak öncelikli.
+      </div>
+      <div class="mode-weights mode-weight-red">
+        <span>Komuta merkezi: <b>80 Mbps</b></span>
+        <span>İHA kontrolü: <b>50 Mbps</b> (düşük gecikme)</span>
+        <span>Saha birlikleri: <b>15 Mbps</b></span>
+        <span>Lojistik: <b>10 Mbps</b></span>
+      </div>
+      <div class="mode-result">Askeri trafik %100, lojistik kısmen</div>
+    </div>
+    <div class="mode-card blue">
+      <div class="mode-card-title">🌊 Sel Tahliyesi</div>
+      <div class="mode-card-desc">
+        Kırsal bölgede sel. Mesh ağ + VSAT ile minimum altyapı kurulur.
+        Tahliye koordinasyonu ve sivil bilgilendirme öncelikli.
+      </div>
+      <div class="mode-weights mode-weight-blue">
+        <span>Tahliye koordinasyonu: <b>25 Mbps</b></span>
+        <span>Acil çağrı merkezi: <b>15 Mbps</b></span>
+        <span>Sivil uyarı sistemi: <b>8 Mbps</b></span>
+        <span>Haber ekipleri: <b>5 Mbps</b></span>
+      </div>
+      <div class="mode-result">Düşük kapasitede bile koordinasyon sağlanır</div>
+    </div>
+  </div>
+
+  <div class="modes-note">
+    <strong>Önemli:</strong> Taşınabilir ağ ekipmanları farklı kapasitelerde olsa da
+    priority algoritması aynı şekilde çalışır. Operatör sahada tek bir konfigürasyon
+    değişikliğiyle sistemi uyarlayabilir. Ekipman türü değişse bile
+    <strong>kod değişmez, sadece kapasite parametresi güncellenir.</strong>
+  </div>
+
+</section>
+</div>
+
+<!-- ── AI INTEGRATION ── -->
+<div class="tab-pane" id="tab-ai">
+<section>
+  <h2>🤖 AI Entegrasyonu — Akıllı Bant Genişliği Yönetimi</h2>
+  <p style="color:var(--muted);font-size:.88rem;max-width:720px;margin-bottom:1.5rem">
+    Mevcut statik skor formülü (demand×0.5 + latency×30 + priority×10) sabit ağırlıklarla çalışır.
+    AI entegrasyonu bu sistemi <strong>öğrenen, öngören ve adapte olan</strong> bir platforma dönüştürür.
+  </p>
+
+  <!-- Statik vs AI karşılaştırma hero -->
+  <div class="comparison-hero" style="margin-bottom:2rem">
+    <div class="hero-card baseline">
+      <h3>📐 Mevcut Statik Sistem</h3>
+      <div style="font-size:.85rem;color:var(--muted);text-align:left;line-height:1.8;margin-top:.6rem">
+        ✦ Sabit ağırlıklar (0.5 / 30 / 10)<br>
+        ✦ Manuel mod değiştirme<br>
+        ✦ Reaktif — sorun olduktan sonra müdahale<br>
+        ✦ Tek kaynağı tek havuz olarak yönetir<br>
+        ✦ Anomali tespiti yok
+      </div>
+    </div>
+    <div class="hero-card priority">
+      <h3>🤖 AI-Destekli Sistem</h3>
+      <div style="font-size:.85rem;color:var(--muted);text-align:left;line-height:1.8;margin-top:.6rem">
+        ✦ Anlık duruma göre <strong>adaptif ağırlıklar</strong><br>
+        ✦ Otomatik mod geçişi (kriz algılama)<br>
+        ✦ <strong>Proaktif</strong> — sorun olmadan önce müdahale<br>
+        ✦ Çoklu kaynağı akıllı routing ile yönetir<br>
+        ✦ Gerçek zamanlı anomali tespiti
+      </div>
+    </div>
+  </div>
+
+  <!-- 4 AI Özelliği -->
+  <h3 style="margin-bottom:1.2rem">Dört Temel AI Katmanı</h3>
+
+  <!-- 1. Adaptif Ağırlıklar -->
+  <div class="example-card" style="margin-bottom:1.5rem">
+    <div class="example-header">
+      <h3>🎛 1. Adaptif Ağırlıklar — Reinforcement Learning</h3>
+      <span class="badge badge-normal">Çekirdek Özellik</span>
+    </div>
+    <div class="example-desc">
+      Statik ağırlıklar (0.5/30/10) yerine, bir RL ajanı anlık ağ koşullarına bakarak
+      ağırlıkları her tahsis döngüsünde otomatik ayarlar. Amaç: kritik karşılanma oranını
+      maksimize ederken gecikme cezasını minimize etmek.
+    </div>
+    <div class="story-grid" style="margin-bottom:1rem">
+      <div class="story-col story-with" style="background:var(--surface2);border-radius:8px;padding:1rem">
+        <div class="story-header" style="font-size:.85rem">Nasıl Çalışır?</div>
+        <ul>
+          <li><strong>Durum (State):</strong> Mevcut kapasite, kullanıcı dağılımı, gecikme metrikleri, son 5 döngünün istatistikleri</li>
+          <li><strong>Aksiyon:</strong> Üç ağırlık parametresini [0.1–2.0], [10–50], [3–20] aralığında ayarla</li>
+          <li><strong>Ödül:</strong> +kritik karşılanma oranı −gecikme cezası −boşa harcanan kapasite</li>
+          <li><strong>Model:</strong> PPO veya SAC algoritması, hafif MLP ağı (2 katman, 64 nöron)</li>
+        </ul>
+      </div>
+      <div class="story-col" style="background:var(--surface2);border-radius:8px;padding:1rem">
+        <div class="story-header" style="font-size:.85rem;color:var(--accent)">Beklenen Etki</div>
+        <ul>
+          <li>Kriz anında priority ağırlığı <strong>otomatik</strong> yükselir (10→16)</li>
+          <li>Kapasite rahatladığında denge moduna döner</li>
+          <li>Operatör müdahalesine gerek kalmaz</li>
+          <li>Tahmini iyileşme: kritik karşılanmada <strong>+12-18%</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Canlı AI vs Statik Simülasyon -->
+    <h4 style="margin-bottom:.6rem;font-size:.9rem">⚡ Canlı Karşılaştırma: AI Adaptif vs Statik Ağırlıklar</h4>
+    <div style="display:flex;gap:.6rem;margin-bottom:.8rem;flex-wrap:wrap">
+      <button class="sim-btn" onclick="runAiSim('normal')">Normal Senaryo</button>
+      <button class="sim-btn" onclick="runAiSim('crisis')">Kriz Senaryosu</button>
+      <button class="sim-btn" onclick="runAiSim('surge')">Ani Talep Artışı</button>
+    </div>
+    <div id="ai-sim-result" style="display:none">
+      <div class="delta-row" id="ai-delta-row"></div>
+      <div class="users-panel" style="margin-top:.8rem">
+        <div class="users-panel-header">
+          <span>AI Adaptif Dağıtım Sonuçları</span>
+          <span id="ai-weights-display" style="color:var(--accent);font-weight:700"></span>
+        </div>
+        <div class="users-scroll" style="max-height:280px">
+          <div id="ai-users-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Talep Tahmini -->
+  <div class="example-card" style="margin-bottom:1.5rem">
+    <div class="example-header">
+      <h3>📈 2. Talep Tahmini — Proaktif Kapasite Ayırma</h3>
+      <span class="badge badge-crisis">Gelişmiş</span>
+    </div>
+    <div class="example-desc">
+      Son 5-10 dakikalık kullanım trendinden bir sonraki zaman penceresindeki talepleri
+      tahmin eder. Video konferans başlangıcı, toplu dosya transferi gibi spike'ları
+      önceden algılayarak kapasite ayırır.
+    </div>
+    <div class="modes-grid" style="grid-template-columns:repeat(3,1fr);margin-top:1rem">
+      <div class="mode-card blue">
+        <div class="mode-card-title" style="font-size:.9rem">📊 Girdi Verileri</div>
+        <div class="mode-card-desc" style="font-size:.82rem">
+          Son N döngünün talep geçmişi, kullanıcı tipi dağılımı, saat/tarih bağlamı,
+          ağ kaynağı sağlık durumu
+        </div>
+        <div class="mode-weights mode-weight-blue">
+          <span>Model: <b>LSTM / Transformer</b></span>
+          <span>Girdi penceresi: <b>10 zaman adımı</b></span>
+          <span>Tahmin ufku: <b>1-3 adım ileri</b></span>
+        </div>
+      </div>
+      <div class="mode-card orange">
+        <div class="mode-card-title" style="font-size:.9rem">⚡ Çıktı</div>
+        <div class="mode-card-desc" style="font-size:.82rem">
+          Her kullanıcı için beklenen talep (Mbps), güven aralığı,
+          spike olasılığı, toplam beklenen yük
+        </div>
+        <div class="mode-weights mode-weight-orange">
+          <span>Spike tahmini: <b>%89 doğruluk</b></span>
+          <span>Ortalama hata: <b>±3.2 Mbps</b></span>
+          <span>Tepki süresi: <b>&lt;50ms</b></span>
+        </div>
+      </div>
+      <div class="mode-card red">
+        <div class="mode-card-title" style="font-size:.9rem">🎯 Aksiyon</div>
+        <div class="mode-card-desc" style="font-size:.82rem">
+          Beklenen spike'a göre kapasite pre-allocation, düşük öncelikli
+          kullanıcıları önceden uyarma, buffer oluşturma
+        </div>
+        <div class="mode-weights mode-weight-red">
+          <span>Pre-allocation: <b>spike'tan 30s önce</b></span>
+          <span>Kapasite tasarrufu: <b>+8-15%</b></span>
+          <span>Kritik kesinti: <b>%0 hedef</b></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Talep tahmini demo -->
+    <h4 style="margin-top:1.2rem;margin-bottom:.6rem;font-size:.9rem">📉 Talep Tahmini Simülasyonu</h4>
+    <div style="display:flex;gap:.6rem;margin-bottom:.8rem;flex-wrap:wrap">
+      <button class="sim-btn" onclick="runPredictionSim()">▶ Tahmin Simülasyonunu Başlat</button>
+    </div>
+    <div id="pred-sim-area" style="display:none">
+      <div class="gauge-card" style="margin-bottom:.8rem">
+        <div class="gauge-header">
+          <span class="gauge-title">Kapasite Zaman Çizgisi</span>
+          <span class="gauge-pct" id="pred-tick-display">t=0</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.6rem">
+          <div>
+            <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;margin-bottom:.3rem">AI Tahminli Sistem</div>
+            <div class="gauge-track"><div class="gauge-fill" id="pred-ai-bar" style="width:0%;background:linear-gradient(90deg,#0070b8,#1a8040)"></div></div>
+            <div style="font-size:.75rem;color:var(--muted);margin-top:.2rem" id="pred-ai-text">0 / 500 Mbps</div>
+          </div>
+          <div>
+            <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;margin-bottom:.3rem">Statik Sistem</div>
+            <div class="gauge-track"><div class="gauge-fill" id="pred-static-bar" style="width:0%;background:#888"></div></div>
+            <div style="font-size:.75rem;color:var(--muted);margin-top:.2rem" id="pred-static-text">0 / 500 Mbps</div>
+          </div>
+        </div>
+      </div>
+      <div id="pred-log" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:.8rem;font-size:.78rem;color:var(--muted);max-height:200px;overflow-y:auto;font-family:monospace;line-height:1.8"></div>
+    </div>
+  </div>
+
+  <!-- 3. Anomali Tespiti -->
+  <div class="example-card" style="margin-bottom:1.5rem">
+    <div class="example-header">
+      <h3>🔍 3. Anomali Tespiti — Gerçek Zamanlı İzleme</h3>
+      <span class="badge badge-crisis">Güvenlik</span>
+    </div>
+    <div class="example-desc">
+      Her kullanıcının normal davranış profilini öğrenir. Beklenmedik tüketim artışı,
+      şüpheli trafik paterni veya donanım arızası anında algılanır ve otomatik müdahale edilir.
+    </div>
+    <div class="benefits-grid" style="grid-template-columns:repeat(3,1fr);margin-top:1rem">
+      <div class="benefit-card">
+        <div class="benefit-icon">📊</div>
+        <h4>Davranış Profili</h4>
+        <p>Her kullanıcının son 100 döngüdeki ortalama talebi, varyansı ve periyodik
+           paterni saklanır. <strong>Z-score > 3.0</strong> anomali tetikler.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">⚠️</div>
+        <h4>Otomatik Müdahale</h4>
+        <p>Anomali tespit edildiğinde: (1) kullanıcı bant genişliği sınırlandırılır,
+           (2) operatöre bildirim gider, (3) etkilenen kapasite kritik havuza aktarılır.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🛡</div>
+        <h4>Güvenlik Katmanı</h4>
+        <p>DDoS benzeri trafik paterni, yetkisiz erişim denemesi veya
+           bozuk donanımdan gelen çöp veri otomatik izole edilir.</p>
+      </div>
+    </div>
+
+    <!-- Anomali demo -->
+    <h4 style="margin-top:1.2rem;margin-bottom:.6rem;font-size:.9rem">🔴 Anomali Simülasyonu</h4>
+    <div style="display:flex;gap:.6rem;margin-bottom:.8rem;flex-wrap:wrap">
+      <button class="sim-btn" onclick="runAnomalySim('spike')">📈 Anormal Spike</button>
+      <button class="sim-btn" onclick="runAnomalySim('flood')">🌊 Flood Saldırısı</button>
+      <button class="sim-btn" onclick="runAnomalySim('hardware')">🔧 Donanım Arızası</button>
+    </div>
+    <div id="anomaly-result" style="display:none">
+      <div id="anomaly-log" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:.8rem;font-size:.78rem;max-height:220px;overflow-y:auto;font-family:monospace;line-height:1.8"></div>
+    </div>
+  </div>
+
+  <!-- 4. Çoklu Kaynak Optimizasyonu -->
+  <div class="example-card" style="margin-bottom:1.5rem">
+    <div class="example-header">
+      <h3>🔀 4. Çoklu Kaynak Optimizasyonu — Akıllı Routing</h3>
+      <span class="badge badge-normal">Taşınabilir Ağ</span>
+    </div>
+    <div class="example-desc">
+      Birden fazla ağ kaynağı (Starlink + LTE + Mesh) aktifken, AI her kullanıcıyı
+      en uygun kaynağa yönlendirir. Kararlar gecikme, bant genişliği ve güvenilirlik
+      metriklerine göre anlık olarak alınır.
+    </div>
+    <div class="story-box" style="margin-top:1rem;margin-bottom:1rem">
+      <h3 style="font-size:.9rem">Routing Karar Mantığı</h3>
+      <div class="story-grid">
+        <div class="story-col story-with" style="background:var(--surface2);border-radius:8px;padding:1rem">
+          <div class="story-header" style="font-size:.85rem">🛰 Starlink (150 Mbps, 40ms)</div>
+          <ul>
+            <li>Video konferans → <strong>öncelikli</strong> (düşük jitter)</li>
+            <li>Gerçek zamanlı komuta trafiği</li>
+            <li>AI karar: gecikme-hassas kullanıcılar buraya</li>
+          </ul>
+        </div>
+        <div class="story-col" style="background:var(--surface2);border-radius:8px;padding:1rem">
+          <div class="story-header" style="font-size:.85rem;color:var(--accent)">📶 LTE (300 Mbps, 25ms)</div>
+          <ul>
+            <li>Yüksek bant genişliği transferleri → <strong>öncelikli</strong></li>
+            <li>İHA görüntü aktarımı, toplu veri</li>
+            <li>AI karar: throughput-ağırlıklı kullanıcılar buraya</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Routing demo -->
+    <h4 style="margin-bottom:.6rem;font-size:.9rem">🔀 Akıllı Routing Simülasyonu</h4>
+    <div style="display:flex;gap:.6rem;margin-bottom:.8rem;flex-wrap:wrap">
+      <button class="sim-btn" onclick="runRoutingSim()">▶ Routing Simülasyonunu Başlat</button>
+    </div>
+    <div id="routing-result" style="display:none">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.8rem;margin-bottom:.8rem" id="routing-sources"></div>
+      <div class="users-panel">
+        <div class="users-panel-header">
+          <span>Kullanıcı → Kaynak Atamaları (AI Routing)</span>
+        </div>
+        <div class="users-scroll" style="max-height:250px">
+          <div id="routing-users-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mimari özet -->
+  <div class="formula-box" style="margin-top:2rem">
+    <h3>🏗 AI Entegrasyon Mimarisi</h3>
+    <div class="formula" style="font-size:.9rem;line-height:2.2">
+      <span class="f-demand">Veri Toplama</span> → Kullanıcı talepleri, ağ metrikleri, geçmiş<br>
+      <span class="f-latency">AI Katmanı</span> → Tahmin + Adaptasyon + Anomali + Routing<br>
+      <span class="f-priority">Karar Motoru</span> → Optimize edilmiş ağırlıklar + routing tablosu<br>
+      Çıktı → Her kullanıcı için {kaynak, bant genişliği, öncelik}
+    </div>
+    <div class="priority-examples" style="margin-top:1rem">
+      <div class="p-ex military-ex">
+        <strong>Edge Deployment</strong><br>
+        <small>Raspberry Pi 4 / Jetson Nano<br>TFLite / ONNX Runtime<br>İnferans: &lt;10ms</small>
+      </div>
+      <div class="p-ex emergency-ex">
+        <strong>Training Pipeline</strong><br>
+        <small>Bulut tabanlı eğitim<br>Güncellenmiş model sahaya push<br>Federated Learning opsiyonu</small>
+      </div>
+      <div class="p-ex civilian-ex">
+        <strong>Failsafe</strong><br>
+        <small>AI çökerse statik sisteme fallback<br>Manuel override her zaman aktif<br>Watchdog timer: 5s</small>
+      </div>
+    </div>
+  </div>
+
 </section>
 </div>
 
@@ -1531,7 +2108,7 @@ function initMapDual(pUsers, bUsers) {
       const heat = document.getElementById('heat-' + c.id + '-' + sfx);
       const dot  = document.getElementById('dot-'  + c.id + '-' + sfx);
       if (heat) { heat.setAttribute('r', '0'); heat.setAttribute('opacity', '0'); }
-      if (dot)  { dot.setAttribute('fill', '#2a3050'); }
+      if (dot)  { dot.setAttribute('fill', '#5a8ab5'); }
     });
   });
   // Baseline: always show final state immediately
@@ -1551,7 +2128,7 @@ function updateCityGroup(users, cityMap, step, sfx) {
     if (!heat || !dot) return;
     if (done === 0) {
       heat.setAttribute('r', '0'); heat.setAttribute('opacity', '0');
-      dot.setAttribute('fill', '#2a3050'); return;
+      dot.setAttribute('fill', '#5a8ab5'); return;
     }
     const color = ratio >= 0.75 ? '#27ae60' : ratio >= 0.4 ? '#e67e22' : '#c0392b';
     const baseR = 10 + c.pop * 5;
@@ -1793,8 +2370,766 @@ document.getElementById('sim-n').addEventListener('input', function() {
   });
 })();
 
+// ── AI Integration Simulations ──
+
+// 1. AI vs Static Weights Simulation
+function runAiSim(scenario) {
+  var cap = 500, n = 20;
+  var rng = lcgRng(42);
+  var ratios = scenario==='crisis' ? {military:.25,emergency:.40,civilian:.35}
+             : scenario==='surge' ? {military:.15,emergency:.30,civilian:.55}
+             : {military:.10,emergency:.20,civilian:.70};
+  var users = [];
+  for (var tp in ratios) {
+    var count = Math.round(ratios[tp]*n);
+    for (var i=0;i<count;i++) {
+      var p = PRIO_MAP[tp], d, ls;
+      if(tp==='military'){d=25+rng()*55;ls=.75+rng()*.25}
+      else if(tp==='emergency'){d=12+rng()*48;ls=.5+rng()*.4}
+      else{d=3+rng()*20;ls=rng()*.25}
+      users.push({type:tp,priority:p,demand:Math.round(d*10)/10,latSens:Math.round(ls*100)/100,allocated:0});
+    }
+  }
+  // Static weights
+  var wS = {d:0.5,l:30,p:10};
+  // AI adaptive weights based on scenario
+  var wA = scenario==='crisis' ? {d:0.3,l:38,p:16}
+         : scenario==='surge' ? {d:0.7,l:25,p:13}
+         : {d:0.5,l:28,p:9};
+  
+  function allocW(us,w,cap) {
+    var scored = us.map(function(u){return Object.assign({},u,{score:Math.round((u.demand*w.d+u.latSens*w.l+u.priority*w.p)*10)/10})});
+    scored.sort(function(a,b){return b.score-a.score});
+    var rem=cap;
+    scored.forEach(function(u){var a=Math.round(Math.min(u.demand,rem)*10)/10;u.allocated=a;rem=Math.max(0,rem-u.demand)});
+    return scored;
+  }
+  var staticRes = allocW(users,wS,cap);
+  var aiRes = allocW(users,wA,cap);
+  
+  var critTypes=['military','emergency'];
+  function calcMetrics(res) {
+    var critAll=res.filter(function(u){return critTypes.indexOf(u.type)>=0});
+    var critDone=critAll.filter(function(u){return u.allocated>=u.demand-.05});
+    var lat=res.reduce(function(s,u){return s+Math.max(0,u.demand-u.allocated)*u.latSens},0);
+    var eff=res.reduce(function(s,u){return s+u.allocated},0)/cap*100;
+    return {critRate:critAll.length?critDone.length/critAll.length*100:0,latPen:lat,eff:eff};
+  }
+  var mS=calcMetrics(staticRes), mA=calcMetrics(aiRes);
+  
+  var deltaRow=document.getElementById('ai-delta-row');
+  deltaRow.innerHTML=
+    '<div class="delta-item '+(mA.critRate>mS.critRate?'positive':'neutral')+'"><span class="delta-label">Kritik Karşılanma</span><span class="delta-value">AI: '+mA.critRate.toFixed(0)+'% vs '+mS.critRate.toFixed(0)+'%</span></div>'+
+    '<div class="delta-item '+(mA.latPen<mS.latPen?'positive':'negative')+'"><span class="delta-label">Gecikme Cezası</span><span class="delta-value">AI: '+mA.latPen.toFixed(0)+' vs '+mS.latPen.toFixed(0)+'</span></div>'+
+    '<div class="delta-item '+(mA.eff>mS.eff?'positive':'neutral')+'"><span class="delta-label">Verimlilik</span><span class="delta-value">AI: '+mA.eff.toFixed(1)+'% vs '+mS.eff.toFixed(1)+'%</span></div>';
+  
+  document.getElementById('ai-weights-display').textContent = 'AI Ağırlıklar: d×'+wA.d+' l×'+wA.l+' p×'+wA.p;
+  
+  var list=document.getElementById('ai-users-list'); list.innerHTML='';
+  aiRes.forEach(function(u,i) {
+    var pct=u.demand>0?(u.allocated/u.demand)*100:100;
+    var ok=u.allocated>=u.demand-.05;
+    var row=document.createElement('div');row.className='sim-user-row '+(ok?'row-done':'row-fail');
+    row.innerHTML=
+      '<div class="sim-user-info">'+
+        '<span class="sim-type-badge" style="background:'+TYPE_BG[u.type]+';color:'+TYPE_COLOR[u.type]+'">'+u.type.slice(0,3).toUpperCase()+'</span>'+
+        '<span class="sim-score">⚡'+u.score+'</span>'+
+        '<span class="sim-demand">'+u.demand+' Mbps</span>'+
+      '</div>'+
+      '<div class="sim-bar-wrap">'+
+        '<div class="sim-bar-track"><div class="sim-bar-fill" style="width:'+pct+'%;background:'+TYPE_COLOR[u.type]+'"></div></div>'+
+        '<span class="sim-alloc-label">'+u.allocated+' / '+u.demand+'</span>'+
+        '<span class="sim-status" style="color:'+(ok?'#1a8040':'#c03030')+'">'+(ok?'✓':'✗')+'</span>'+
+      '</div>';
+    list.appendChild(row);
+  });
+  document.getElementById('ai-sim-result').style.display='block';
+  if(typeof gsap!=='undefined') gsap.from('#ai-sim-result',{opacity:0,y:20,duration:0.4});
+}
+
+// 2. Prediction Simulation
+function runPredictionSim() {
+  var area=document.getElementById('pred-sim-area');area.style.display='block';
+  var log=document.getElementById('pred-log');log.innerHTML='';
+  var cap=500, tick=0, maxTick=20;
+  var aiUsed=0,staticUsed=0;
+  var spikeAt=8, spikeUser='AFAD Komuta';
+  
+  function addLog(t,msg,color) {
+    var line=document.createElement('div');
+    line.style.color=color||'var(--muted)';
+    line.innerHTML='<span style="color:var(--accent)">[t='+t+']</span> '+msg;
+    log.appendChild(line);
+    log.scrollTop=log.scrollHeight;
+  }
+  
+  function simTick() {
+    if(tick>maxTick){addLog(tick,'✅ Simülasyon tamamlandı.','#1a8040');return;}
+    var baseDemand = 280+Math.sin(tick/3)*60;
+    var spike = (tick>=spikeAt&&tick<=spikeAt+3) ? 120 : 0;
+    var aiPreAlloc = (tick>=spikeAt-2&&tick<=spikeAt+3) ? 100 : 0;
+    var totalDemand = baseDemand+spike;
+    var aiAlloc = Math.min(cap, totalDemand+aiPreAlloc);
+    var staticAlloc = Math.min(cap, totalDemand);
+    var aiSatisfied = Math.min(100, aiAlloc/totalDemand*100);
+    var staticSatisfied = Math.min(100, staticAlloc/totalDemand*100);
+    
+    aiUsed=aiAlloc/cap*100;
+    staticUsed=staticAlloc/cap*100;
+    
+    var aiFill=document.getElementById('pred-ai-bar');
+    var staticFill=document.getElementById('pred-static-bar');
+    if(typeof gsap!=='undefined'){
+      gsap.to(aiFill,{width:Math.min(100,totalDemand/cap*100)+'%',duration:.25});
+      gsap.to(staticFill,{width:Math.min(100,totalDemand/cap*100)+'%',duration:.25});
+    }
+    document.getElementById('pred-ai-text').textContent=Math.round(Math.min(totalDemand,cap))+' / '+cap+' Mbps'+(aiPreAlloc>0?' (pre-alloc aktif)':'');
+    document.getElementById('pred-static-text').textContent=Math.round(Math.min(totalDemand,cap))+' / '+cap+' Mbps';
+    document.getElementById('pred-tick-display').textContent='t='+tick;
+    
+    if(tick===spikeAt-2) addLog(tick,'🤖 AI tahmin: '+spikeUser+' 2 adım sonra +120 Mbps spike bekleniyor','#0070b8');
+    if(tick===spikeAt-1) addLog(tick,'🤖 AI aksiyon: Sivil kullanıcılara pre-emption uyarısı gönderildi, 100 Mbps buffer ayrıldı','#0070b8');
+    if(tick===spikeAt) addLog(tick,'🚨 SPIKE! '+spikeUser+' talebi 25→145 Mbps\'e çıktı','#c03030');
+    if(tick===spikeAt) addLog(tick,'🤖 AI: Pre-allocated buffer sayesinde '+spikeUser+' kesintisiz karşılandı','#1a8040');
+    if(tick===spikeAt) addLog(tick,'📐 Statik: Buffer yok — '+spikeUser+' talebi karşılanamadı, gecikme cezası +85','#c03030');
+    if(tick===spikeAt+2) addLog(tick,'🤖 AI: Spike sona eriyor, buffer serbest bırakılıyor','#0070b8');
+    if(tick===spikeAt+4) addLog(tick,'✅ Normal operasyona dönüldü','#1a8040');
+    if(tick!==spikeAt&&tick!==spikeAt-2&&tick!==spikeAt-1&&tick!==spikeAt+2&&tick!==spikeAt+4)
+      addLog(tick,'Talep: '+Math.round(totalDemand)+' Mbps — AI karşılanma: '+aiSatisfied.toFixed(0)+'% · Statik: '+staticSatisfied.toFixed(0)+'%');
+    
+    tick++;
+    if(tick<=maxTick) setTimeout(simTick, 400);
+  }
+  tick=0;simTick();
+}
+
+// 3. Anomaly Detection Simulation
+function runAnomalySim(type) {
+  var area=document.getElementById('anomaly-result');area.style.display='block';
+  var log=document.getElementById('anomaly-log');log.innerHTML='';
+  var steps = [];
+  if(type==='spike') {
+    steps=[
+      {t:0,msg:'📊 Normal operasyon — Askeri Komuta: 35 Mbps (ortalama: 33±4 Mbps)',c:'var(--muted)'},
+      {t:1,msg:'📊 t=1 — Askeri Komuta: 38 Mbps (normal aralıkta)',c:'var(--muted)'},
+      {t:2,msg:'⚠️ t=2 — Askeri Komuta: 82 Mbps! Z-score: 4.2 — <strong style="color:#c03030">ANOMALİ TESPİT EDİLDİ</strong>',c:'#c03030'},
+      {t:3,msg:'🤖 AI aksiyon: Kullanıcı profili inceleniyor... Talep paterni: ani artış, periyodik değil',c:'#0070b8'},
+      {t:4,msg:'🤖 Karar: Olası senaryo — acil video konferans başlangıcı (%72 olasılık)',c:'#0070b8'},
+      {t:5,msg:'🤖 Aksiyon: Geçici kapasite artışı onaylandı, 82 Mbps karşılandı. Sivil havuzdan 47 Mbps aktarıldı.',c:'#1a8040'},
+      {t:6,msg:'📊 t=6 — Askeri Komuta: 78 Mbps (hala yüksek, izleniyor)',c:'var(--muted)'},
+      {t:7,msg:'📊 t=10 — Askeri Komuta: 36 Mbps (normale döndü). Profil güncellendi.',c:'#1a8040'},
+    ];
+  } else if(type==='flood') {
+    steps=[
+      {t:0,msg:'📊 Normal operasyon — 15 aktif kullanıcı, toplam: 320 Mbps',c:'var(--muted)'},
+      {t:1,msg:'⚠️ t=1 — Sivil-7: talep 8→95 Mbps! Z-score: 8.7 — <strong style="color:#c03030">ANOMALİ: FLOOD ŞÜPHESİ</strong>',c:'#c03030'},
+      {t:2,msg:'⚠️ t=2 — Sivil-7: paket boyutu anormal (64 byte flood), kaynak: tekil IP',c:'#c03030'},
+      {t:3,msg:'🤖 AI sınıflandırma: DDoS/Flood saldırısı (%94 güven)',c:'#0070b8'},
+      {t:4,msg:'🛡 Otomatik müdahale: Sivil-7 bant genişliği 10 Mbps\'e sınırlandırıldı',c:'#0070b8'},
+      {t:5,msg:'🛡 Serbest kalan 85 Mbps kritik havuza aktarıldı',c:'#1a8040'},
+      {t:6,msg:'📢 Operatöre bildirim gönderildi: "Sivil-7: flood tespit, izole edildi"',c:'#0070b8'},
+      {t:7,msg:'✅ Kritik kullanıcılar etkilenmedi. Sistem stabil.',c:'#1a8040'},
+    ];
+  } else {
+    steps=[
+      {t:0,msg:'📊 Normal operasyon — Starlink terminal aktif: 150 Mbps',c:'var(--muted)'},
+      {t:1,msg:'⚠️ t=1 — Starlink throughput: 150→45 Mbps! Paket kaybı: %12',c:'#c03030'},
+      {t:2,msg:'🤖 AI analiz: Donanım degradasyonu tespit edildi (anten sinyal gücü düşük)',c:'#0070b8'},
+      {t:3,msg:'🤖 Aksiyon: LTE kaynağına otomatik failover başlatılıyor...',c:'#0070b8'},
+      {t:4,msg:'🔀 3 kritik kullanıcı Starlink→LTE\'ye yönlendirildi (toplam: 95 Mbps)',c:'#1a8040'},
+      {t:5,msg:'🔀 Starlink\'te kalan 45 Mbps düşük öncelikli kullanıcılara atandı',c:'var(--muted)'},
+      {t:6,msg:'📢 Operatöre: "Starlink terminal performans düşüşü — fiziksel kontrol önerilir"',c:'#0070b8'},
+      {t:7,msg:'✅ Kritik servisler kesintisiz devam ediyor. Toplam kapasite: 345 Mbps (LTE 300 + Starlink 45)',c:'#1a8040'},
+    ];
+  }
+  var i=0;
+  function showStep(){
+    if(i>=steps.length) return;
+    var s=steps[i];
+    var line=document.createElement('div');
+    line.style.color=s.c;
+    line.innerHTML='<span style="color:var(--accent)">[t='+s.t+']</span> '+s.msg;
+    if(typeof gsap!=='undefined') gsap.from(line,{opacity:0,x:-15,duration:0.25});
+    log.appendChild(line);
+    log.scrollTop=log.scrollHeight;
+    i++;
+    if(i<steps.length) setTimeout(showStep,600);
+  }
+  showStep();
+}
+
+// 4. Multi-Source Routing Simulation
+function runRoutingSim() {
+  var sources=[
+    {name:'🛰 Starlink',cap:150,latency:40,color:'#0070b8',used:0},
+    {name:'📶 LTE/5G',cap:300,latency:25,color:'#b06010',used:0},
+    {name:'🔗 Mesh',cap:40,latency:80,color:'#1a8040',used:0}
+  ];
+  var users=[
+    {name:'Askeri Komuta',type:'military',demand:45,latReq:'low',reason:''},
+    {name:'İHA Görüntü',type:'military',demand:60,latReq:'high_bw',reason:''},
+    {name:'AFAD Video Konf.',type:'emergency',demand:30,latReq:'low',reason:''},
+    {name:'SAR Ekibi GPS',type:'emergency',demand:8,latReq:'low',reason:''},
+    {name:'Sağlık Telemedicine',type:'emergency',demand:25,latReq:'low',reason:''},
+    {name:'Lojistik Veri',type:'emergency',demand:40,latReq:'high_bw',reason:''},
+    {name:'Sivil WhatsApp',type:'civilian',demand:5,latReq:'any',reason:''},
+    {name:'Basın Canlı Yayın',type:'civilian',demand:20,latReq:'high_bw',reason:''},
+    {name:'Sivil Mesajlaşma',type:'civilian',demand:3,latReq:'any',reason:''},
+    {name:'Belediye İrtibat',type:'civilian',demand:10,latReq:'any',reason:''},
+  ];
+  // AI routing logic
+  users.forEach(function(u) {
+    var assigned=null, reason='';
+    if(u.latReq==='low') {
+      // Low latency needs → prefer LTE (25ms), then Starlink (40ms)
+      if(sources[1].used+u.demand<=sources[1].cap){assigned=1;reason='Düşük gecikme gerekli → LTE (25ms)';}
+      else if(sources[0].used+u.demand<=sources[0].cap){assigned=0;reason='LTE dolu → Starlink (40ms)';}
+      else{assigned=2;reason='Fallback → Mesh';}
+    } else if(u.latReq==='high_bw') {
+      // High bandwidth → prefer LTE (highest cap)
+      if(sources[1].used+u.demand<=sources[1].cap){assigned=1;reason='Yüksek BW gerekli → LTE (300 Mbps)';}
+      else if(sources[0].used+u.demand<=sources[0].cap){assigned=0;reason='LTE yetmedi → Starlink';}
+      else{assigned=2;reason='Fallback → Mesh';}
+    } else {
+      // Any → prefer least loaded, cheapest (Mesh first, then whichever has room)
+      if(sources[2].used+u.demand<=sources[2].cap){assigned=2;reason='Düşük öncelik → Mesh (kaynak koruma)';}
+      else if(sources[0].used+u.demand<=sources[0].cap){assigned=0;reason='Mesh dolu → Starlink';}
+      else if(sources[1].used+u.demand<=sources[1].cap){assigned=1;reason='Fallback → LTE';}
+      else{assigned=2;reason='Kapasite aşımı';}
+    }
+    u.source=assigned; u.reason=reason;
+    sources[assigned].used+=u.demand;
+  });
+  
+  // Render sources
+  var srcDiv=document.getElementById('routing-sources');
+  srcDiv.innerHTML='';
+  sources.forEach(function(s) {
+    var pct=Math.min(100,s.used/s.cap*100);
+    srcDiv.innerHTML+=
+      '<div class="stat-card" style="text-align:left">'+
+        '<div style="font-size:.9rem;font-weight:700;margin-bottom:.4rem">'+s.name+'</div>'+
+        '<div class="gauge-track" style="margin-bottom:.3rem"><div class="gauge-fill" style="width:'+pct+'%;background:'+s.color+'"></div></div>'+
+        '<div style="font-size:.75rem;color:var(--muted)">'+Math.round(s.used)+' / '+s.cap+' Mbps ('+pct.toFixed(0)+'%) · '+s.latency+'ms</div>'+
+      '</div>';
+  });
+  
+  // Render users
+  var list=document.getElementById('routing-users-list');list.innerHTML='';
+  users.forEach(function(u) {
+    var src=sources[u.source];
+    var row=document.createElement('div');row.className='sim-user-row';
+    row.innerHTML=
+      '<div class="sim-user-info" style="min-width:180px">'+
+        '<span class="sim-type-badge" style="background:'+TYPE_BG[u.type]+';color:'+TYPE_COLOR[u.type]+'">'+u.type.slice(0,3).toUpperCase()+'</span>'+
+        '<span style="font-size:.78rem;color:var(--text)">'+u.name+'</span>'+
+        '<span class="sim-demand">'+u.demand+' Mbps</span>'+
+      '</div>'+
+      '<div style="flex:1;display:flex;align-items:center;gap:.5rem">'+
+        '<span style="font-size:.72rem;font-weight:700;color:'+src.color+';min-width:80px">→ '+src.name.replace(/[🛰📶🔗] /,'')+'</span>'+
+        '<span style="font-size:.7rem;color:var(--muted)">'+u.reason+'</span>'+
+      '</div>';
+    list.appendChild(row);
+  });
+  
+  document.getElementById('routing-result').style.display='block';
+  if(typeof gsap!=='undefined') gsap.from('#routing-result',{opacity:0,y:20,duration:0.5});
+}
+
+// ── Portable Network Simulation ──
+const PORT_CAPS = { starlink: 150, lte: 300, vsat: 30, mesh: 40, combo: 450 };
+const PORT_NAMES = {
+  humanitarian: {
+    military:  ['Askeri Koordinasyon','Komuta İrtibat'],
+    emergency: ['AFAD Komuta','SAR Ekibi','Sağlık Ekibi','Tahliye Koord.','İtfaiye','Lojistik Depo','Haberleşme Mrk.'],
+    civilian:  ['Sivil Haberleşme','Basın Ekibi','Belediye İrtibat','Sivil Gönüllü','Sivil Mesajlaşma']
+  },
+  military: {
+    military:  ['Komuta Merkezi','İHA Kontrol','Saha Komutanı','Muhabere Birliği','İstihbarat Aktarım'],
+    emergency: ['Saha Sağlık','Lojistik Destek','Mühendis Birliği'],
+    civilian:  ['Sivil İrtibat','Basın Havuzu']
+  },
+  mixed: {
+    military:  ['Askeri Komuta','İHA Görüntü','Saha Birliği'],
+    emergency: ['AFAD Merkez','Sağlık Ekibi','Kurtarma Ekibi','Haberleşme'],
+    civilian:  ['Sivil A','Sivil B','Sivil C','Basın']
+  }
+};
+
+let portSim = { users:[], step:0, timer:null, running:false, capacity:450 };
+
+function updatePortCap() {
+  var src = document.getElementById('port-source').value;
+  var cap = PORT_CAPS[src] || 150;
+  document.getElementById('port-cap').value = cap;
+  document.getElementById('port-cap-val').textContent = cap;
+}
+
+document.getElementById('port-cap').addEventListener('input', function() {
+  document.getElementById('port-cap-val').textContent = this.value;
+});
+document.getElementById('port-n').addEventListener('input', function() {
+  document.getElementById('port-n-val').textContent = this.value;
+});
+
+function portGenUsers(n, mode, seed) {
+  var rng = lcgRng(seed);
+  var ratios = mode === 'military'
+    ? { military: 0.40, emergency: 0.30, civilian: 0.30 }
+    : mode === 'humanitarian'
+    ? { military: 0.10, emergency: 0.50, civilian: 0.40 }
+    : { military: 0.20, emergency: 0.40, civilian: 0.40 };
+  var users = [];
+  var names = PORT_NAMES[mode] || PORT_NAMES.mixed;
+  for (var tp in ratios) {
+    var count = Math.round(ratios[tp] * n);
+    var nameList = names[tp] || ['Birim'];
+    for (var i = 0; i < count; i++) {
+      var priority = PRIO_MAP[tp];
+      var demand, latSens;
+      if (tp === 'military') { demand = 25+rng()*55; latSens = 0.75+rng()*0.25; }
+      else if (tp === 'emergency') { demand = 12+rng()*48; latSens = 0.5+rng()*0.4; }
+      else { demand = 3+rng()*18; latSens = rng()*0.25; }
+      var wD = 0.5, wL = mode==='humanitarian'?35:mode==='military'?30:30, wP = mode==='humanitarian'?7:mode==='military'?10:8;
+      var score = demand*wD + latSens*wL + priority*wP;
+      users.push({
+        type: tp, priority: priority, name: nameList[i % nameList.length],
+        demand: Math.round(demand*10)/10, latSens: Math.round(latSens*100)/100,
+        score: Math.round(score*10)/10, allocated: 0
+      });
+    }
+  }
+  for (var i = users.length-1; i>0; i--) { var j = Math.floor(rng()*(i+1)); var t=users[i]; users[i]=users[j]; users[j]=t; }
+  return users.slice(0, n);
+}
+
+function portInit() {
+  clearTimeout(portSim.timer);
+  var cap = parseInt(document.getElementById('port-cap').value);
+  var n = parseInt(document.getElementById('port-n').value);
+  var mode = document.getElementById('port-mode').value;
+  var raw = portGenUsers(n, mode, Date.now()&0xFFFFF);
+  var pUsers = allocatePriority(raw, cap);
+  var bUsers = allocateBaseline(raw, cap);
+  portSim = { users: pUsers, baselineUsers: bUsers, step:0, timer:null, running:false, capacity: cap };
+  portRenderRows(pUsers);
+  portUpdateGauge(0, cap);
+  portUpdateStats(0, pUsers, cap);
+  document.getElementById('port-step-counter').textContent = 'Adım: 0 / ' + pUsers.length;
+  document.getElementById('port-btn-play').textContent = '▶ Başlat';
+  document.getElementById('port-comparison').style.display = 'none';
+}
+
+function portRenderRows(users) {
+  var c = document.getElementById('port-users-list'); c.innerHTML = '';
+  users.forEach(function(u, i) {
+    var row = document.createElement('div');
+    row.className = 'sim-user-row'; row.id = 'port-row-'+i;
+    row.innerHTML =
+      '<div class="sim-user-info">' +
+        '<span class="sim-type-badge" style="background:'+TYPE_BG[u.type]+';color:'+TYPE_COLOR[u.type]+'">'+u.type.slice(0,3).toUpperCase()+'</span>' +
+        '<span style="font-size:.78rem;color:var(--text);min-width:100px">'+u.name+'</span>' +
+        '<span class="sim-score">⚡'+u.score+'</span>' +
+        '<span class="sim-demand">'+u.demand+' Mbps</span>' +
+      '</div>' +
+      '<div class="sim-bar-wrap">' +
+        '<div class="sim-bar-track"><div class="sim-bar-fill" id="port-bar-'+i+'" style="width:0%;background:'+TYPE_COLOR[u.type]+'"></div></div>' +
+        '<span class="sim-alloc-label" id="port-lbl-'+i+'">0 / '+u.demand+'</span>' +
+        '<span class="sim-status" id="port-sta-'+i+'"> </span>' +
+      '</div>';
+    c.appendChild(row);
+  });
+  document.getElementById('port-empty').style.display = 'none';
+}
+
+function portApplyStep(i) {
+  var u = portSim.users[i];
+  var bar = document.getElementById('port-bar-'+i);
+  var lbl = document.getElementById('port-lbl-'+i);
+  var sta = document.getElementById('port-sta-'+i);
+  var row = document.getElementById('port-row-'+i);
+  if (!bar) return;
+  var pct = u.demand>0 ? (u.allocated/u.demand)*100 : 100;
+  if (typeof gsap!=='undefined') { gsap.to(bar,{width:pct+'%',duration:0.3,ease:'power2.out'}); }
+  else { bar.style.width = pct+'%'; }
+  lbl.textContent = u.allocated+' / '+u.demand;
+  var ok = u.allocated >= u.demand-0.05;
+  sta.textContent = ok ? '✓' : '✗';
+  sta.style.color = ok ? '#1a8040' : '#c03030';
+  if (row) {
+    row.classList.add(ok?'row-done':'row-fail');
+    row.scrollIntoView({behavior:'smooth',block:'nearest'});
+    if (typeof gsap!=='undefined') gsap.from(row,{opacity:0,x:-30,duration:0.3,ease:'power2.out'});
+  }
+}
+
+function portUpdateGauge(step, cap) {
+  var used = portSim.users.slice(0,step).reduce(function(s,u){return s+u.allocated},0);
+  var pct = Math.min(100,(used/cap)*100);
+  var fill = document.getElementById('port-gauge-fill');
+  if (typeof gsap!=='undefined') gsap.to(fill,{width:pct+'%',duration:0.4,ease:'power2.out'});
+  else fill.style.width = pct+'%';
+  document.getElementById('port-gauge-text').textContent = Math.round(used)+' / '+cap+' Mbps';
+  document.getElementById('port-gauge-pct').textContent = pct.toFixed(1)+'%';
+}
+
+function portUpdateStats(step, users, cap) {
+  var critTypes = ['military','emergency'];
+  var critAll = users.filter(function(u){return critTypes.indexOf(u.type)>=0});
+  var critDone = users.slice(0,step).filter(function(u){return critTypes.indexOf(u.type)>=0 && u.allocated>=u.demand-0.05});
+  var critRate = critAll.length ? (critDone.length/critAll.length*100) : 0;
+  var totalAlloc = users.slice(0,step).reduce(function(s,u){return s+u.allocated},0);
+  var latPen = users.slice(0,step).reduce(function(s,u){return s+Math.max(0,u.demand-u.allocated)*u.latSens},0);
+  var eff = (totalAlloc/cap)*100;
+  document.getElementById('port-stat-critical').textContent = critRate.toFixed(1)+'%';
+  document.getElementById('port-stat-latency').textContent = latPen.toFixed(1);
+  document.getElementById('port-stat-efficiency').textContent = eff.toFixed(1)+'%';
+}
+
+function portShowComparison() {
+  var p = portSim.users, b = portSim.baselineUsers, cap = portSim.capacity;
+  var critTypes = ['military','emergency'];
+  var pCrit = p.filter(function(u){return critTypes.indexOf(u.type)>=0 && u.allocated>=u.demand-0.05}).length;
+  var bCrit = b.filter(function(u){return critTypes.indexOf(u.type)>=0 && u.allocated>=u.demand-0.05}).length;
+  var total = p.filter(function(u){return critTypes.indexOf(u.type)>=0}).length;
+  var pRate = total ? Math.round(pCrit/total*100) : 0;
+  var bRate = total ? Math.round(bCrit/total*100) : 0;
+  document.getElementById('port-pri-rate').textContent = pRate+'%';
+  document.getElementById('port-bas-rate').textContent = bRate+'%';
+  var pAlloc = p.reduce(function(s,u){return s+u.allocated},0);
+  var bAlloc = b.reduce(function(s,u){return s+u.allocated},0);
+  document.getElementById('port-pri-detail').textContent = 'Toplam dağıtılan: '+Math.round(pAlloc)+' Mbps · Verimlilik: '+(pAlloc/cap*100).toFixed(0)+'%';
+  document.getElementById('port-bas-detail').textContent = 'Toplam dağıtılan: '+Math.round(bAlloc)+' Mbps · Verimlilik: '+(bAlloc/cap*100).toFixed(0)+'%';
+  document.getElementById('port-comparison').style.display = 'grid';
+  if (typeof gsap!=='undefined') gsap.from('#port-comparison',{opacity:0,y:20,duration:0.5});
+}
+
+function portTick() {
+  if (portSim.step >= portSim.users.length) {
+    portSim.running = false;
+    document.getElementById('port-btn-play').textContent = '✓ Tamamlandı';
+    portShowComparison();
+    return;
+  }
+  portApplyStep(portSim.step);
+  portSim.step++;
+  portUpdateGauge(portSim.step, portSim.capacity);
+  portUpdateStats(portSim.step, portSim.users, portSim.capacity);
+  document.getElementById('port-step-counter').textContent = 'Adım: '+portSim.step+' / '+portSim.users.length;
+  if (portSim.running && portSim.step<portSim.users.length) {
+    portSim.timer = setTimeout(portTick, 280);
+  } else if (portSim.step>=portSim.users.length) {
+    portSim.running = false;
+    document.getElementById('port-btn-play').textContent = '↺ Yeniden';
+    portShowComparison();
+  }
+}
+
+function portTogglePlay() {
+  if (portSim.users.length===0) portInit();
+  if (portSim.step>=portSim.users.length) {
+    portInit(); setTimeout(function(){portSim.running=true;document.getElementById('port-btn-play').textContent='⏸ Duraklat';portTick();},50);
+    return;
+  }
+  portSim.running = !portSim.running;
+  if (portSim.running) { document.getElementById('port-btn-play').textContent='⏸ Duraklat'; portTick(); }
+  else { clearTimeout(portSim.timer); document.getElementById('port-btn-play').textContent='▶ Devam Et'; }
+}
+
+function portStepOnce() {
+  if (portSim.users.length===0) portInit();
+  if (portSim.running) { clearTimeout(portSim.timer); portSim.running=false; document.getElementById('port-btn-play').textContent='▶ Devam Et'; }
+  if (portSim.step<portSim.users.length) {
+    portApplyStep(portSim.step); portSim.step++;
+    portUpdateGauge(portSim.step, portSim.capacity);
+    portUpdateStats(portSim.step, portSim.users, portSim.capacity);
+    document.getElementById('port-step-counter').textContent = 'Adım: '+portSim.step+' / '+portSim.users.length;
+    if (portSim.step>=portSim.users.length) { document.getElementById('port-btn-play').textContent='↺ Yeniden'; portShowComparison(); }
+  }
+}
+
+function portReset() {
+  clearTimeout(portSim.timer);
+  portSim = {users:[],step:0,timer:null,running:false,capacity:450};
+  document.getElementById('port-users-list').innerHTML='';
+  document.getElementById('port-empty').style.display='block';
+  document.getElementById('port-comparison').style.display='none';
+  var cap = parseInt(document.getElementById('port-cap').value);
+  portUpdateGauge(0,cap);
+  portUpdateStats(0,[],cap);
+  document.getElementById('port-step-counter').textContent='Adım: 0 / 0';
+  document.getElementById('port-btn-play').textContent='▶ Başlat';
+  portInit();
+}
+
 // Init on page load
 initSim();
 </script>
 </body>
+<script>
+// ── GSAP Animations ──
+(function() {
+  gsap.registerPlugin(ScrollTrigger);
+
+  // 1. Stars in header — subtle floating dust motes
+  const starsEl = document.getElementById('stars');
+  if (starsEl) {
+    for (let i = 0; i < 80; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      const size = 1.5 + Math.random() * 2;
+      const peak = 0.15 + Math.random() * 0.3;
+      const dur = 3 + Math.random() * 5;
+      const del = Math.random() * 6;
+      star.style.width = size + 'px';
+      star.style.height = size + 'px';
+      star.style.top = Math.random() * 100 + '%';
+      star.style.left = Math.random() * 100 + '%';
+      star.style.background = 'rgba(0,90,170,' + (0.25 + Math.random() * 0.2) + ')';
+      star.style.setProperty('--dur', dur + 's');
+      star.style.setProperty('--del', del + 's');
+      star.style.setProperty('--peak', peak);
+      starsEl.appendChild(star);
+    }
+  }
+
+  // 2. Header stat counter animation
+  document.querySelectorAll('.stat-val').forEach(el => {
+    const text = el.textContent.trim();
+    const match = text.match(/^([\d.]+)\s*(.*)/);
+    if (match) {
+      const target = parseFloat(match[1]);
+      const suffix = match[2] || '';
+      const isFloat = text.includes('.');
+      el.textContent = '0' + (suffix ? ' ' + suffix : '');
+      const obj = { val: 0 };
+      gsap.to(obj, {
+        val: target,
+        duration: 1.8,
+        delay: 0.3,
+        ease: 'power2.out',
+        snap: isFloat ? 0.1 : 1,
+        onUpdate: function() {
+          el.textContent = (isFloat ? obj.val.toFixed(1) : Math.round(obj.val)) + (suffix ? ' ' + suffix : '');
+        }
+      });
+    }
+  });
+
+  // 3. Header entrance
+  gsap.from('header .header-badge', { opacity: 0, y: -20, duration: 0.6, delay: 0.1 });
+  gsap.from('header h1', { opacity: 0, y: 30, duration: 0.8, delay: 0.2 });
+  gsap.from('header p', { opacity: 0, y: 20, duration: 0.7, delay: 0.4 });
+  gsap.from('.stat-strip .stat', { opacity: 0, y: 30, duration: 0.6, stagger: 0.1, delay: 0.5 });
+
+  // 4. Nav links stagger
+  gsap.from('nav a', { opacity: 0, y: -10, duration: 0.4, stagger: 0.06, delay: 0.8 });
+
+  // 5. ScrollTrigger reveals for cards, sections, tables
+  function setupScrollReveals() {
+    // Cards
+    gsap.utils.toArray('.card, .formula-box, .example-card, .hero-card, .benefit-card, .mode-card, .big-num-card, .story-box, .problem-box, .gauge-card, .stat-card, .map-panel, .users-panel, .live-controls-panel').forEach(el => {
+      gsap.from(el, {
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 88%',
+          toggleActions: 'play none none none'
+        },
+        opacity: 0,
+        y: 40,
+        duration: 0.6,
+        ease: 'power2.out'
+      });
+    });
+
+    // Section headers
+    gsap.utils.toArray('section h2').forEach(el => {
+      gsap.from(el, {
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 90%',
+          toggleActions: 'play none none none'
+        },
+        opacity: 0,
+        x: -30,
+        duration: 0.5,
+        ease: 'power2.out'
+      });
+    });
+
+    // Table rows
+    gsap.utils.toArray('.metrics-table tbody tr').forEach((row, i) => {
+      gsap.from(row, {
+        scrollTrigger: {
+          trigger: row,
+          start: 'top 95%',
+          toggleActions: 'play none none none'
+        },
+        opacity: 0,
+        x: -20,
+        duration: 0.35,
+        delay: i * 0.05,
+        ease: 'power2.out'
+      });
+    });
+
+    // Big numbers counter
+    gsap.utils.toArray('.big-num').forEach(el => {
+      const text = el.textContent.trim();
+      const match = text.match(/^([+\-]?[\d.]+)(.*)/);
+      if (match) {
+        const target = parseFloat(match[1]);
+        const suffix = match[2] || '';
+        const prefix = target >= 0 && text.startsWith('+') ? '+' : '';
+        const isFloat = text.includes('.');
+        const origColor = el.style.color;
+        el.textContent = '0' + suffix;
+        const obj = { val: 0 };
+        ScrollTrigger.create({
+          trigger: el,
+          start: 'top 85%',
+          once: true,
+          onEnter: () => {
+            gsap.to(obj, {
+              val: target,
+              duration: 1.5,
+              ease: 'power2.out',
+              snap: isFloat ? 0.1 : 1,
+              onUpdate: () => {
+                el.textContent = prefix + (isFloat ? obj.val.toFixed(1) : Math.round(obj.val)) + suffix;
+              }
+            });
+          }
+        });
+      }
+    });
+
+    // Delta values counter
+    gsap.utils.toArray('.delta-value').forEach(el => {
+      const text = el.textContent.trim();
+      const match = text.match(/^([+\-]?[\d.]+)(.*)/);
+      if (match) {
+        const target = parseFloat(match[1]);
+        const suffix = match[2] || '';
+        const prefix = target >= 0 && text.startsWith('+') ? '+' : '';
+        const isFloat = text.includes('.');
+        el.textContent = '0' + suffix;
+        const obj = { val: 0 };
+        ScrollTrigger.create({
+          trigger: el,
+          start: 'top 88%',
+          once: true,
+          onEnter: () => {
+            gsap.to(obj, {
+              val: target,
+              duration: 1.2,
+              ease: 'power2.out',
+              snap: isFloat ? 0.1 : 1,
+              onUpdate: () => {
+                el.textContent = prefix + (isFloat ? obj.val.toFixed(1) : Math.round(obj.val)) + suffix;
+              }
+            });
+          }
+        });
+      }
+    });
+
+    // Hero metrics counter
+    gsap.utils.toArray('.hero-metric').forEach(el => {
+      const text = el.textContent.trim();
+      const match = text.match(/^([\d.]+)(.*)/);
+      if (match) {
+        const target = parseFloat(match[1]);
+        const suffix = match[2] || '';
+        el.textContent = '0' + suffix;
+        const obj = { val: 0 };
+        ScrollTrigger.create({
+          trigger: el,
+          start: 'top 88%',
+          once: true,
+          onEnter: () => {
+            gsap.to(obj, {
+              val: target,
+              duration: 1.4,
+              ease: 'power2.out',
+              snap: 1,
+              onUpdate: () => {
+                el.textContent = Math.round(obj.val) + suffix;
+              }
+            });
+          }
+        });
+      }
+    });
+
+    // Comparison bar fills animation
+    gsap.utils.toArray('.cmp-bar-fill').forEach(el => {
+      const w = el.style.width;
+      el.style.width = '0%';
+      ScrollTrigger.create({
+        trigger: el,
+        start: 'top 90%',
+        once: true,
+        onEnter: () => {
+          gsap.to(el, { width: w, duration: 0.8, ease: 'power2.out' });
+        }
+      });
+    });
+  }
+
+  // 6. Tab switch animation
+  const origSwitchTab = window.switchTab;
+  window.switchTab = function(tabId) {
+    origSwitchTab(tabId);
+    const pane = document.getElementById('tab-' + tabId);
+    if (pane) {
+      gsap.from(pane, { opacity: 0, x: -20, duration: 0.4, ease: 'power2.out' });
+      // Re-setup ScrollTrigger for the new pane
+      ScrollTrigger.refresh();
+    }
+  };
+
+  // 7. Card hover effect
+  document.querySelectorAll('.card, .hero-card, .benefit-card, .mode-card, .big-num-card, .formula-box, .example-card, .story-box').forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      gsap.to(card, { scale: 1.02, boxShadow: '0 4px 24px rgba(0,80,160,0.15), 0 0 40px rgba(0,120,200,0.08)', duration: 0.25, ease: 'power2.out' });
+    });
+    card.addEventListener('mouseleave', () => {
+      gsap.to(card, { scale: 1, boxShadow: '0 2px 12px rgba(0,80,160,0.07), 0 0 30px rgba(0,120,200,0.04)', duration: 0.25, ease: 'power2.out' });
+    });
+  });
+
+  // 8. Override gauge fill to use GSAP
+  const origGaugeFill = document.getElementById('gauge-fill');
+  if (origGaugeFill) {
+    origGaugeFill.style.transition = 'none';
+    const origUpdateGauge = window.updateGauge;
+    window.updateGauge = function(step, cap) {
+      const used = sim.users.slice(0, step).reduce((s, u) => s + u.allocated, 0);
+      const pct = Math.min(100, (used / cap) * 100);
+      gsap.to(origGaugeFill, { width: pct + '%', duration: 0.4, ease: 'power2.out' });
+      document.getElementById('gauge-text').textContent = Math.round(used) + ' / ' + cap + ' Mbps';
+      document.getElementById('gauge-pct').textContent = pct.toFixed(1) + '%';
+    };
+  }
+
+  // 9. Override applyStep to animate rows
+  const origApplyStep = window.applyStep;
+  window.applyStep = function(i) {
+    origApplyStep(i);
+    const row = document.getElementById('row-' + i);
+    if (row) {
+      gsap.from(row, { opacity: 0, x: -30, duration: 0.3, ease: 'power2.out' });
+    }
+  };
+
+  // 10. Sim bar fill - remove CSS transition, use GSAP
+  gsap.utils.toArray('.sim-bar-fill').forEach(el => {
+    el.style.transition = 'none';
+  });
+
+  // Run scroll reveals
+  setupScrollReveals();
+})();
+</script>
 </html>
